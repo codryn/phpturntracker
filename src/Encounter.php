@@ -208,6 +208,137 @@ class Encounter
         $this->state->setCurrentActorId($nextId);
     }
 
+
+    /**
+     * Change an actor's initiative mid-encounter.
+     *
+     * Preserves acted/unacted status. If initiative increases past current position,
+     * actor is marked as acted (skipped this round).
+     *
+     * @param string $actorId Actor whose initiative to change
+     * @param int $newInitiative New initiative score
+     * @throws ActorNotFoundException If actor not found
+     * @throws EncounterNotActiveException If encounter not active
+     */
+    public function changeInitiative(string $actorId, int $newInitiative): void
+    {
+        if (!$this->state->isActive()) {
+            throw new EncounterNotActiveException('Cannot change initiative: encounter not active');
+        }
+
+        if (!isset($this->actors[$actorId])) {
+            throw new ActorNotFoundException(
+                sprintf('Actor with ID "%s" not found', $actorId)
+            );
+        }
+
+        // Validate new initiative
+        InitiativeValidator::validate($newInitiative, $this->profile);
+
+        // Get current actor initiative before change
+        $oldInitiative = $this->actors[$actorId]->getInitiative();
+        $currentActorId = $this->state->getCurrentActorId();
+        $currentActorInitiative = $currentActorId !== null && isset($this->actors[$currentActorId])
+            ? $this->actors[$currentActorId]->getInitiative()
+            : null;
+
+        // Update actor's initiative
+        $this->actors[$actorId] = new Actor(
+            $this->actors[$actorId]->getId(),
+            $this->actors[$actorId]->getName(),
+            $newInitiative,
+            $this->actors[$actorId]->getAttributes()
+        );
+
+        // Update actor state
+        $this->actorStates[$actorId]->setCurrentInitiative($newInitiative);
+
+        // If increasing initiative past current position, mark as acted (skip this round)
+        if ($currentActorInitiative !== null &&
+            $newInitiative > $currentActorInitiative &&
+            $newInitiative > $oldInitiative &&
+            !$this->actorStates[$actorId]->hasActed()) {
+            $this->actorStates[$actorId]->markActed();
+        }
+
+        // Notify turn order strategy to recalculate
+        $this->turnOrder->changeInitiative(
+            $actorId,
+            $newInitiative,
+            $this->actors,
+            $this->state
+        );
+    }
+
+    /**
+     * Delay an actor's action to a lower initiative.
+     *
+     * Actor must not have acted yet, and new initiative must be lower than current.
+     * Turn advances to next actor immediately.
+     *
+     * @param string $actorId Actor to delay
+     * @param int $newInitiative New (lower) initiative score
+     * @throws ActorNotFoundException If actor not found
+     * @throws ActorAlreadyActedException If actor has already acted
+     * @throws InvalidDelayException If new initiative not lower or out of bounds
+     * @throws EncounterNotActiveException If encounter not active
+     */
+    public function delayActor(string $actorId, int $newInitiative): void
+    {
+        if (!$this->state->isActive()) {
+            throw new EncounterNotActiveException('Cannot delay actor: encounter not active');
+        }
+
+        if (!isset($this->actors[$actorId])) {
+            throw new ActorNotFoundException(
+                sprintf('Actor with ID "%s" not found', $actorId)
+            );
+        }
+
+        // Check if actor has already acted
+        if ($this->actorStates[$actorId]->hasActed()) {
+            throw new ActorAlreadyActedException(
+                sprintf('Actor "%s" has already acted this round and cannot delay', $actorId)
+            );
+        }
+
+        // Validate new initiative is lower
+        $currentInitiative = $this->actors[$actorId]->getInitiative();
+        if ($newInitiative >= $currentInitiative) {
+            throw new InvalidDelayException(
+                sprintf(
+                    'Cannot delay: new initiative %d must be lower than current %d',
+                    $newInitiative,
+                    $currentInitiative
+                )
+            );
+        }
+
+        // Validate new initiative is within bounds
+        InitiativeValidator::validate($newInitiative, $this->profile);
+
+        // Check if delaying current actor
+        $isCurrentActor = ($this->state->getCurrentActorId() === $actorId);
+
+        // If delaying current actor, get next actor BEFORE changing initiative
+        $nextId = null;
+        if ($isCurrentActor) {
+            $nextId = $this->turnOrder->getNextActor(
+                $this->actors,
+                $this->actorStates,
+                $this->state
+            );
+        }
+
+        // Change initiative (this will recalculate turn order)
+        $this->changeInitiative($actorId, $newInitiative);
+
+        // If delaying current actor, set next actor as current
+        if ($isCurrentActor && $nextId !== null) {
+            $this->state->setCurrentActorId($nextId);
+        }
+    }
+
     /**
      * Get the current round number.
      */

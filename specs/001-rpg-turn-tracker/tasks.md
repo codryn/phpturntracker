@@ -107,26 +107,26 @@
 
 ### Tests for User Story 2 ✅ RED PHASE
 
-- [ ] T044 [P] [US2] Integration test for US2 Scenario 1 in tests/Integration/DynamicActorManagementTest.php: add an actor mid-round with high initiative, verify won't act until next round
-- [ ] T045 [P] [US2] Integration test for US2 Scenario 2: add an actor mid-round with low initiative, verify acts later this round if position not passed
-- [ ] T046 [P] [US2] Integration test for US2 Scenario 3: remove an actor who already acted, verify no disruption
-- [ ] T047 [P] [US2] Integration test for US2 Scenario 4: remove current actor, verify turn advances immediately
-- [ ] T048 [P] [US2] Integration test for US2 Scenario 5: remove an unacted actor, verify turn skipped and removed from future turns
+- [X] T044 [P] [US2] Integration test for US2 Scenario 1 in tests/Integration/DynamicActorManagementTest.php: add an actor mid-round with high initiative, verify won't act until next round
+- [X] T045 [P] [US2] Integration test for US2 Scenario 2: add an actor mid-round with low initiative, verify acts later this round if position not passed
+- [X] T046 [P] [US2] Integration test for US2 Scenario 3: remove an actor who already acted, verify no disruption
+- [X] T047 [P] [US2] Integration test for US2 Scenario 4: remove current actor, verify turn advances immediately
+- [X] T048 [P] [US2] Integration test for US2 Scenario 5: remove an unacted actor, verify turn skipped and removed from future turns
 
 ### Implementation for User Story 2 ✅ GREEN PHASE
 
-- [ ] T049 [US2] Implement RoundBasedIndividual::addActor() with mid-round position calculation
-- [ ] T050 [US2] Implement RoundBasedIndividual::removeActor() with current actor handling
-- [ ] T051 [US2] Implement Encounter::removeActor() with validation and current actor advance logic
-- [ ] T052 [US2] Add duplicate actor ID validation to Encounter::addActor()
-- [ ] T053 [US2] Handle ActorNotFoundException in Encounter::removeActor()
-- [ ] T054 [US2] Run integration tests - should now PASS ✅
+- [X] T049 [US2] Implement RoundBasedIndividual::addActor() with mid-round position calculation
+- [X] T050 [US2] Implement RoundBasedIndividual::removeActor() with current actor handling
+- [X] T051 [US2] Implement Encounter::removeActor() with validation and current actor advance logic
+- [X] T052 [US2] Add duplicate actor ID validation to Encounter::addActor()
+- [X] T053 [US2] Handle ActorNotFoundException in Encounter::removeActor()
+- [X] T054 [US2] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 2 ✅ REFACTOR PHASE
 
-- [ ] T055 [US2] Extract actor position calculation logic to helper method
-- [ ] T056 [US2] Add comprehensive unit tests for edge cases (remove last actor, add to empty encounter)
-- [ ] T057 [US2] Run php-cs-fixer
+- [X] T055 [US2] Extract actor position calculation logic to helper method
+- [X] T056 [US2] Add comprehensive unit tests for edge cases (remove last actor, add to empty encounter)
+- [X] T057 [US2] Run php-cs-fixer
 
 **Checkpoint**: User Stories 1 AND 2 both work independently - dynamic combat fully functional
 
@@ -140,25 +140,25 @@
 
 ### Tests for User Story 3 ✅ RED PHASE
 
-- [ ] T058 [P] [US3] Integration test for US3 Scenario 1 in tests/Integration/InitiativeChangesTest.php: delay actor to lower initiative, verify moved position but remains unacted, turn advances to next
-- [ ] T059 [P] [US3] Integration test for US3 Scenario 2: reduce acted actor's initiative, verify position changes but remains acted this round
-- [ ] T060 [P] [US3] Integration test for US3 Scenario 3: delayed actor's status resets properly in next round
-- [ ] T061 [P] [US3] Integration test for US3 Scenario 4: increase unacted actor's initiative past current position, verify skipped this round
+- [X] T058 [P] [US3] Integration test for US3 Scenario 1 in tests/Integration/InitiativeChangesTest.php: delay actor to lower initiative, verify moved position but remains unacted, turn advances to next
+- [X] T059 [P] [US3] Integration test for US3 Scenario 2: reduce acted actor's initiative, verify position changes but remains acted this round
+- [X] T060 [P] [US3] Integration test for US3 Scenario 3: delayed actor's status resets properly in next round
+- [X] T061 [P] [US3] Integration test for US3 Scenario 4: increase unacted actor's initiative past current position, verify skipped this round
 
 ### Implementation for User Story 3 ✅ GREEN PHASE
 
-- [ ] T062 [US3] Implement RoundBasedIndividual::changeInitiative() with re-sorting, acted status preservation
-- [ ] T063 [US3] Implement Encounter::changeInitiative() with validation and strategy delegation
-- [ ] T064 [US3] Implement Encounter::delayActor() with preconditions (must not have acted, initiative must decrease)
-- [ ] T065 [US3] Add InvalidDelayException throwing for invalid delay attempts
-- [ ] T066 [US3] Add ActorAlreadyActedException for delayed actor who already acted
-- [ ] T067 [US3] Run integration tests - should now PASS ✅
+- [X] T062 [US3] Implement RoundBasedIndividual::changeInitiative() with re-sorting, acted status preservation
+- [X] T063 [US3] Implement Encounter::changeInitiative() with validation and strategy delegation
+- [X] T064 [US3] Implement Encounter::delayActor() with preconditions (must not have acted, initiative must decrease)
+- [X] T065 [US3] Add InvalidDelayException throwing for invalid delay attempts
+- [X] T066 [US3] Add ActorAlreadyActedException for delayed actor who already acted
+- [X] T067 [US3] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 3 ✅ REFACTOR PHASE
 
-- [ ] T068 [US3] Extract initiative change validation to InitiativeValidator
-- [ ] T069 [US3] Add unit tests for initiative change edge cases
-- [ ] T070 [US3] Run php-cs-fixer
+- [X] T068 [US3] Extract initiative change validation to InitiativeValidator
+- [X] T069 [US3] Add unit tests for initiative change edge cases
+- [X] T070 [US3] Run php-cs-fixer
 
 **Checkpoint**: User Stories 1, 2, AND 3 all work independently - tactical combat options functional
 

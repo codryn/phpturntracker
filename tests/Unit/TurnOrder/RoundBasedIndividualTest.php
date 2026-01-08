@@ -221,4 +221,82 @@ class RoundBasedIndividualTest extends TestCase
         // Pass advancement not applicable for round-based systems
         $this->assertFalse($strategy->shouldAdvancePass([]));
     }
+
+    public function testChangeInitiativeRecalculatesTurnOrder(): void
+    {
+        // ARRANGE: Create actors with known order
+        $actors = [
+            'actor1' => ActorFactory::create('actor1', 'Actor 1', 20),
+            'actor2' => ActorFactory::create('actor2', 'Actor 2', 15),
+            'actor3' => ActorFactory::create('actor3', 'Actor 3', 10),
+        ];
+
+        $encounterState = new EncounterState();
+        $encounterState->setActive(true);
+        $encounterState->setCurrentRound(1);
+
+        $strategy = new RoundBasedIndividual();
+        $initialOrder = $strategy->calculateInitialOrder($actors);
+
+        // Initial order: actor1 (20), actor2 (15), actor3 (10)
+        $this->assertSame(['actor1', 'actor2', 'actor3'], $initialOrder);
+
+        // ACT: Change actor3's initiative to 25 (becomes first)
+        $actors['actor3'] = ActorFactory::create('actor3', 'Actor 3', 25);
+        $strategy->changeInitiative('actor3', 25, $actors, $encounterState);
+
+        // ASSERT: Get new order by calling calculateInitialOrder (changeInitiative should have done this)
+        $newOrder = $strategy->calculateInitialOrder($actors);
+        $this->assertSame(['actor3', 'actor1', 'actor2'], $newOrder);
+    }
+
+    public function testChangeInitiativeHandlesDecreasingInitiative(): void
+    {
+        // ARRANGE: Create actors
+        $actors = [
+            'actor1' => ActorFactory::create('actor1', 'Actor 1', 20),
+            'actor2' => ActorFactory::create('actor2', 'Actor 2', 15),
+            'actor3' => ActorFactory::create('actor3', 'Actor 3', 10),
+        ];
+
+        $encounterState = new EncounterState();
+        $encounterState->setActive(true);
+        $encounterState->setCurrentRound(1);
+
+        $strategy = new RoundBasedIndividual();
+        $strategy->calculateInitialOrder($actors);
+
+        // ACT: Decrease actor1's initiative to 5 (becomes last)
+        $actors['actor1'] = ActorFactory::create('actor1', 'Actor 1', 5);
+        $strategy->changeInitiative('actor1', 5, $actors, $encounterState);
+
+        // ASSERT: New order should be actor2, actor3, actor1
+        $newOrder = $strategy->calculateInitialOrder($actors);
+        $this->assertSame(['actor2', 'actor3', 'actor1'], $newOrder);
+    }
+
+    public function testChangeInitiativeWithTiedInitiatives(): void
+    {
+        // ARRANGE: Create actors
+        $actors = [
+            'actor1' => ActorFactory::create('actor1', 'Actor 1', 20),
+            'actor2' => ActorFactory::create('actor2', 'Actor 2', 15),
+            'actor3' => ActorFactory::create('actor3', 'Actor 3', 10),
+        ];
+
+        $encounterState = new EncounterState();
+        $encounterState->setActive(true);
+        $encounterState->setCurrentRound(1);
+
+        $strategy = new RoundBasedIndividual();
+        $strategy->calculateInitialOrder($actors);
+
+        // ACT: Change actor3's initiative to match actor2 (both at 15)
+        $actors['actor3'] = ActorFactory::create('actor3', 'Actor 3', 15);
+        $strategy->changeInitiative('actor3', 15, $actors, $encounterState);
+
+        // ASSERT: actor2 and actor3 should maintain stable order
+        $newOrder = $strategy->calculateInitialOrder($actors);
+        $this->assertSame(['actor1', 'actor2', 'actor3'], $newOrder);
+    }
 }
