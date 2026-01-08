@@ -107,11 +107,11 @@
 
 ### Tests for User Story 2 ✅ RED PHASE
 
-- [ ] T044 [P] [US2] Integration test for US2 Scenario 1 in tests/Integration/DynamicActorManagementTest.php: add actor mid-round with high initiative, verify won't act until next round
-- [ ] T045 [P] [US2] Integration test for US2 Scenario 2: add actor mid-round with low initiative, verify acts later this round if position not passed
-- [ ] T046 [P] [US2] Integration test for US2 Scenario 3: remove actor who already acted, verify no disruption
+- [ ] T044 [P] [US2] Integration test for US2 Scenario 1 in tests/Integration/DynamicActorManagementTest.php: add an actor mid-round with high initiative, verify won't act until next round
+- [ ] T045 [P] [US2] Integration test for US2 Scenario 2: add an actor mid-round with low initiative, verify acts later this round if position not passed
+- [ ] T046 [P] [US2] Integration test for US2 Scenario 3: remove an actor who already acted, verify no disruption
 - [ ] T047 [P] [US2] Integration test for US2 Scenario 4: remove current actor, verify turn advances immediately
-- [ ] T048 [P] [US2] Integration test for US2 Scenario 5: remove unacted actor, verify turn skipped and removed from future turns
+- [ ] T048 [P] [US2] Integration test for US2 Scenario 5: remove an unacted actor, verify turn skipped and removed from future turns
 
 ### Implementation for User Story 2 ✅ GREEN PHASE
 
@@ -119,7 +119,7 @@
 - [ ] T050 [US2] Implement RoundBasedIndividual::removeActor() with current actor handling
 - [ ] T051 [US2] Implement Encounter::removeActor() with validation and current actor advance logic
 - [ ] T052 [US2] Add duplicate actor ID validation to Encounter::addActor()
-- [ ] T053 [US2] Handle ActorNotFoundException in removeActor
+- [ ] T053 [US2] Handle ActorNotFoundException in Encounter::removeActor()
 - [ ] T054 [US2] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 2 ✅ REFACTOR PHASE
@@ -213,6 +213,7 @@
 - [ ] T090 [P] [US5] Integration test for US5 Scenario 4: popcorn with 4/5 acted, verify last unacted automatically current
 - [ ] T091 [P] [US5] Integration test for US5 Scenario 5: popcorn or slot-based round completion, verify reset
 - [ ] T092 [P] [US5] Integration test for US5 Scenario 6: popcorn with allowRepeatPopcorn=true, verify can re-designate acted actor
+- [ ] T092a [P] [US5] Integration test for slot-based with insufficient actors edge case: 3 slots configured but only 2 actors available, verify behavior (skip slot, reuse actor, or error)
 
 ### Implementation for User Story 5 ✅ GREEN PHASE
 
@@ -225,6 +226,7 @@
 - [ ] T099 [US5] Implement Encounter::designateNext() for popcorn initiative
 - [ ] T100 [US5] Add InvalidDesignationException for invalid popcorn designations
 - [ ] T101 [US5] Update TimelineProfileValidator for slot and popcorn validation rules
+- [ ] T101a [US5] Implement getCurrentSlot() method for slot-based encounters or clarify getCurrentActor() returns slot metadata
 - [ ] T102 [US5] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 5 ✅ REFACTOR PHASE
@@ -248,7 +250,7 @@
 - [ ] T106 [P] [US6] Integration test for US6 Scenario 1 in tests/Integration/SideBasedInitiativeTest.php: side-based encounter, verify entire first side available
 - [ ] T107 [P] [US6] Integration test for US6 Scenario 2: all first side acted, verify second side becomes current
 - [ ] T108 [P] [US6] Integration test for US6 Scenario 3: second side completes, verify round increment and reset
-- [ ] T109 [P] [US6] Integration test for US6 Scenario 4: add actor to active side mid-round, verify can act immediately
+- [ ] T109 [P] [US6] Integration test for US6 Scenario 4: add an actor to active side mid-round, verify can act immediately
 
 ### Implementation for User Story 6 ✅ GREEN PHASE
 
@@ -278,6 +280,7 @@
 - [ ] T121 [P] Add PHPStan configuration phpstan.neon at level max
 - [ ] T122 Run PHPStan analysis, fix any issues
 - [ ] T123 Run PHPUnit with coverage report, verify ≥90% coverage
+- [ ] T123a [P] Stress test: create encounter, run 100+ rounds with 20 actors, verify performance stable and no integer overflow
 - [ ] T124 Run php-cs-fixer on entire codebase
 - [ ] T125 Review all PHPDoc comments for completeness and accuracy
 - [ ] T126 Manual test: run through quickstart.md examples step-by-step, verify all work

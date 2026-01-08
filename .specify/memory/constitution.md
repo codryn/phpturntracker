@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report:
-Version: 1.0.0 (initial constitution - adapted from phpdice)
+Version: 1.0.1 (updated package name: marcowuelser → codryn)
 Modified Principles:
   - Updated all project references: phpdice → phpturntracker
-  - Updated package installation: composer require marcowuelser/phpdice → composer require marcowuelser/phpturntracker
-  - Updated GitHub repository: github.com/marcowuelser/phpdice → github.com/marcowuelser/phpturntracker
+  - Updated package installation: composer require marcowuelser/phpdice → composer require codryn/phpturntracker
+  - Updated GitHub repository: github.com/marcowuelser/phpdice → github.com/codryn/phpturntracker
 Added Sections: All core principles established (Composer Package Standards, PSR-12 Coding Standards, Test-Driven Development, PHPUnit Testing Coverage, Complete Documentation)
 Removed Sections: N/A
 Templates Status:
@@ -40,7 +40,7 @@ phpturntracker MUST be developed and distributed as a professionally maintained 
 - MUST include properly configured `composer.json` with complete metadata (name, description, license, authors, keywords)
 - MUST declare all dependencies with appropriate version constraints
 - MUST support semantic versioning for dependency management
-- Package structure MUST enable easy installation via `composer require marcowuelser/phpturntracker`
+- Package structure MUST enable easy installation via `composer require codryn/phpturntracker`
 
 **Rationale**: As a public library, phpturntracker must integrate seamlessly into PHP projects using the standard package manager. Professional package standards ensure reliability, discoverability, and ease of adoption.
 
@@ -130,7 +130,7 @@ User-facing documentation MUST be comprehensive and maintained:
 
 ### Public Repository
 
-- Source code MUST be hosted on GitHub (github.com/marcowuelser/phpturntracker)
+- Source code MUST be hosted on GitHub (github.com/codryn/phpturntracker)
 - MUST include proper LICENSE file (open source license required)
 - MUST maintain semantic versioning (MAJOR.MINOR.PATCH)
 - Tagged releases MUST be created for all versions
