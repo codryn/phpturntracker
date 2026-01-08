@@ -247,23 +247,23 @@
 
 ### Tests for User Story 6 ✅ RED PHASE
 
-- [ ] T106 [P] [US6] Integration test for US6 Scenario 1 in tests/Integration/SideBasedInitiativeTest.php: side-based encounter, verify entire first side available
-- [ ] T107 [P] [US6] Integration test for US6 Scenario 2: all first side acted, verify second side becomes current
-- [ ] T108 [P] [US6] Integration test for US6 Scenario 3: second side completes, verify round increment and reset
-- [ ] T109 [P] [US6] Integration test for US6 Scenario 4: add an actor to active side mid-round, verify can act immediately
+- [X] T106 [P] [US6] Integration test for US6 Scenario 1 in tests/Integration/SideBasedInitiativeTest.php: side-based encounter, verify entire first side available
+- [X] T107 [P] [US6] Integration test for US6 Scenario 2: all first side acted, verify second side becomes current
+- [X] T108 [P] [US6] Integration test for US6 Scenario 3: second side completes, verify round increment and reset
+- [X] T109 [P] [US6] Integration test for US6 Scenario 4: add an actor to active side mid-round, verify can act immediately
 
 ### Implementation for User Story 6 ✅ GREEN PHASE
 
-- [ ] T110 [US6] Implement RoundBasedSide strategy in src/TurnOrder/RoundBasedSide.php: group actors by side attribute, side-level turn tracking
-- [ ] T111 [US6] Create unit test for RoundBasedSide in tests/Unit/TurnOrder/RoundBasedSideTest.php
-- [ ] T112 [US6] Update Encounter to handle side-based current state (current side vs current actor)
-- [ ] T113 [US6] Update getCurrentActor() to return null or any unacted actor of current side for side-based
-- [ ] T114 [US6] Run integration tests - should now PASS ✅
+- [X] T110 [US6] Implement RoundBasedSide strategy in src/TurnOrder/RoundBasedSide.php: group actors by side attribute, side-level turn tracking
+- [X] T111 [US6] Create unit test for RoundBasedSide in tests/Unit/TurnOrder/RoundBasedSideTest.php
+- [X] T112 [US6] Update Encounter to handle side-based current state (current side vs current actor)
+- [X] T113 [US6] Update getCurrentActor() to return null or any unacted actor of current side for side-based
+- [X] T114 [US6] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 6 ✅ REFACTOR PHASE
 
-- [ ] T115 [US6] Add unit tests for side-based edge cases (single side, no side attribute)
-- [ ] T116 [US6] Run php-cs-fixer
+- [X] T115 [US6] Add unit tests for side-based edge cases (single side, no side attribute)
+- [X] T116 [US6] Run php-cs-fixer
 
 **Checkpoint**: All 6 user stories complete and independently functional - Full RPG system coverage achieved
 
