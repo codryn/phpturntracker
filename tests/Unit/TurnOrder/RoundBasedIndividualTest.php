@@ -119,15 +119,21 @@ class RoundBasedIndividualTest extends TestCase
         $strategy->calculateInitialOrder($actors);
 
         $newActor = ActorFactory::create('actor3', 'New Actor', 15);
-        $strategy->addActor($newActor, $encounterState);
 
-        $actors[] = $newActor;
+        // Build array of all actors including the new one (keyed by ID)
+        $allActors = [];
+        foreach ($actors as $actor) {
+            $allActors[$actor->getId()] = $actor;
+        }
+        $allActors[$newActor->getId()] = $newActor;
+
+        $strategy->addActor($newActor, $allActors, $encounterState);
+
         $actorStates = [];
 
-        // Turn order is: actor2 (11), actor3 is appended
-        // Verify actor3 is now in turn order (it was appended, so comes after actor1)
+        // Turn order is recalculated with actor3 inserted at correct position
         $encounterState->setCurrentActorId('actor1');
-        $nextId = $strategy->getNextActor($actors, $actorStates, $encounterState);
+        $nextId = $strategy->getNextActor($allActors, $actorStates, $encounterState);
         $this->assertSame('actor3', $nextId);
     }
 
@@ -185,8 +191,11 @@ class RoundBasedIndividualTest extends TestCase
         ];
 
         $strategy = new RoundBasedIndividual();
+        $encounterState = new EncounterState();
+        $encounterState->setActive(true);
+        $encounterState->setCurrentRound(1);
 
-        $this->assertTrue($strategy->shouldAdvanceRound($actorStates));
+        $this->assertTrue($strategy->shouldAdvanceRound($actorStates, $encounterState));
     }
 
     public function testShouldAdvanceRoundReturnsFalseWhenSomeUnacted(): void
@@ -198,8 +207,11 @@ class RoundBasedIndividualTest extends TestCase
         ];
 
         $strategy = new RoundBasedIndividual();
+        $encounterState = new EncounterState();
+        $encounterState->setActive(true);
+        $encounterState->setCurrentRound(1);
 
-        $this->assertFalse($strategy->shouldAdvanceRound($actorStates));
+        $this->assertFalse($strategy->shouldAdvanceRound($actorStates, $encounterState));
     }
 
     public function testShouldAdvancePassReturnsFalse(): void

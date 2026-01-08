@@ -20,12 +20,14 @@ class ActorState
      * @param bool $hasActed Whether actor has acted this round/pass
      * @param int $passesRemaining Passes remaining (pass-based only)
      * @param int $currentInitiative Current initiative (may differ from base if decay enabled)
+     * @param int|null $addedInRound Round number when actor was added (null if present at start)
      */
     public function __construct(
         private string $actorId,
         private bool $hasActed = false,
         private int $passesRemaining = 0,
-        private int $currentInitiative = 0
+        private int $currentInitiative = 0,
+        private ?int $addedInRound = null
     ) {
     }
 
@@ -117,5 +119,23 @@ class ActorState
     public function applyDecay(int $decayAmount): void
     {
         $this->currentInitiative -= $decayAmount;
+    }
+
+    /**
+     * Get the round when actor was added.
+     *
+     * @return int|null Round number, or null if present at start
+     */
+    public function getAddedInRound(): ?int
+    {
+        return $this->addedInRound;
+    }
+
+    /**
+     * Set the round when actor was added.
+     */
+    public function setAddedInRound(?int $round): void
+    {
+        $this->addedInRound = $round;
     }
 }

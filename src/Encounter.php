@@ -95,17 +95,21 @@ class Encounter
         // Validate initiative bounds
         InitiativeValidator::validate($actor->getInitiative(), $this->profile);
 
+        // Determine if adding mid-encounter (to track for round rules)
+        $addedInRound = $this->state->isActive() ? $this->state->getCurrentRound() : null;
+
         // Add actor and create state
         $this->actors[$actorId] = $actor;
         $this->actorStates[$actorId] = new ActorState(
             $actorId,
             hasActed: false,
-            currentInitiative: $actor->getInitiative()
+            currentInitiative: $actor->getInitiative(),
+            addedInRound: $addedInRound
         );
 
         // If encounter is active, notify turn order strategy
         if ($this->state->isActive()) {
-            $this->turnOrder->addActor($actor, $this->state);
+            $this->turnOrder->addActor($actor, $this->actors, $this->state);
         }
     }
 
@@ -126,6 +130,16 @@ class Encounter
         // Check if removing current actor
         $wasCurrentActor = ($this->state->getCurrentActorId() === $actorId);
 
+        // If removing current actor, get next BEFORE removal
+        $nextId = null;
+        if ($wasCurrentActor && $this->state->isActive()) {
+            $nextId = $this->turnOrder->getNextActor(
+                $this->actors,
+                $this->actorStates,
+                $this->state
+            );
+        }
+
         // Remove from collections
         unset($this->actors[$actorId]);
         unset($this->actorStates[$actorId]);
@@ -134,9 +148,9 @@ class Encounter
         if ($this->state->isActive()) {
             $this->turnOrder->removeActor($actorId, $this->state);
 
-            // If we removed current actor, advance to next
-            if ($wasCurrentActor) {
-                $this->advanceTurn();
+            // If we removed current actor, set next WITHOUT marking as acted
+            if ($wasCurrentActor && $nextId !== null) {
+                $this->state->setCurrentActorId($nextId);
             }
         }
     }
@@ -180,7 +194,7 @@ class Encounter
         }
 
         // Check if round should advance
-        if ($this->turnOrder->shouldAdvanceRound($this->actorStates)) {
+        if ($this->turnOrder->shouldAdvanceRound($this->actorStates, $this->state)) {
             $this->advanceRound();
         }
 

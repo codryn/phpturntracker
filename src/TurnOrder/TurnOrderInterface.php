@@ -43,9 +43,10 @@ interface TurnOrderInterface
      * Handle actor addition mid-encounter.
      *
      * @param Actor $actor The actor being added
+     * @param Actor[] $allActors All actors in encounter (keyed by ID)
      * @param EncounterState $encounterState Current encounter state
      */
-    public function addActor(Actor $actor, EncounterState $encounterState): void;
+    public function addActor(Actor $actor, array $allActors, EncounterState $encounterState): void;
 
     /**
      * Handle actor removal mid-encounter.
@@ -74,9 +75,10 @@ interface TurnOrderInterface
      * Check if the round should advance.
      *
      * @param ActorState[] $actorStates State for each actor (keyed by ID)
+     * @param EncounterState $encounterState Current encounter state
      * @return bool True if round should advance
      */
-    public function shouldAdvanceRound(array $actorStates): bool;
+    public function shouldAdvanceRound(array $actorStates, EncounterState $encounterState): bool;
 
     /**
      * Check if the pass should advance (pass-based systems only).

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Codryn\PhpTurnTracker\TurnOrder;
 
 use Codryn\PhpTurnTracker\Actor;
+use Codryn\PhpTurnTracker\State\ActorState;
 use Codryn\PhpTurnTracker\State\EncounterState;
 
 /**
@@ -61,9 +62,9 @@ class RoundBasedIndividual implements TurnOrderInterface
 
         $currentActorId = $encounterState->getCurrentActorId();
 
-        // If no current actor, return first in order
+        // If no current actor, return first in order (that can act this round)
         if ($currentActorId === null) {
-            return $this->turnOrder[0];
+            return $this->getFirstEligibleActor($actorStates, $encounterState);
         }
 
         // Find current actor's position
@@ -71,39 +72,70 @@ class RoundBasedIndividual implements TurnOrderInterface
 
         if ($currentIndex === false) {
             // Current actor not in turn order, return first
-            return $this->turnOrder[0];
+            return $this->getFirstEligibleActor($actorStates, $encounterState);
         }
 
-        // Get next actor in sequence
+        // Get next actor in sequence (skip actors added mid-round)
         $nextIndex = $currentIndex + 1;
 
-        // If we've reached the end, wrap to beginning (new round logic handled by Encounter)
-        if ($nextIndex >= count($this->turnOrder)) {
-            return $this->turnOrder[0];
+        // Search for next eligible actor
+        while ($nextIndex < count($this->turnOrder)) {
+            $nextActorId = $this->turnOrder[$nextIndex];
+
+            // Check if actor was added in current round
+            if (isset($actorStates[$nextActorId])) {
+                $state = $actorStates[$nextActorId];
+                $addedInRound = $state->getAddedInRound();
+
+                // Skip if added in current round
+                if ($addedInRound !== null && $addedInRound === $encounterState->getCurrentRound()) {
+                    $nextIndex++;
+                    continue;
+                }
+            }
+
+            return $nextActorId;
         }
 
-        return $this->turnOrder[$nextIndex];
+        // If we've reached the end, wrap to beginning (new round logic handled by Encounter)
+        return $this->turnOrder[0];
+    }
+
+    /**
+     * Get the first actor eligible to act this round.
+     *
+     * @param array<string, ActorState> $actorStates
+     * @param EncounterState $encounterState
+     * @return string|null
+     */
+    private function getFirstEligibleActor(array $actorStates, EncounterState $encounterState): ?string
+    {
+        foreach ($this->turnOrder as $actorId) {
+            // Check if actor was added in current round
+            if (isset($actorStates[$actorId])) {
+                $state = $actorStates[$actorId];
+                $addedInRound = $state->getAddedInRound();
+
+                // Skip if added in current round
+                if ($addedInRound !== null && $addedInRound === $encounterState->getCurrentRound()) {
+                    continue;
+                }
+            }
+
+            return $actorId;
+        }
+
+        // All actors were added this round, return first anyway
+        return $this->turnOrder[0] ?? null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addActor(Actor $actor, EncounterState $encounterState): void
+    public function addActor(Actor $actor, array $allActors, EncounterState $encounterState): void
     {
-        // Add actor to turn order in appropriate position based on initiative
-        $newActorId = $actor->getId();
-        $newInitiative = $actor->getInitiative();
-
-        // If turn order empty, just add it
-        if (empty($this->turnOrder)) {
-            $this->turnOrder[] = $newActorId;
-            return;
-        }
-
-        // Find insertion point (maintain descending initiative order)
-        // For now, just append and rely on recalculation
-        // A more sophisticated implementation would insert at correct position
-        $this->turnOrder[] = $newActorId;
+        // Recalculate entire turn order to maintain correct initiative positions
+        $this->calculateInitialOrder($allActors);
     }
 
     /**
@@ -141,10 +173,19 @@ class RoundBasedIndividual implements TurnOrderInterface
     /**
      * {@inheritDoc}
      */
-    public function shouldAdvanceRound(array $actorStates): bool
+    public function shouldAdvanceRound(array $actorStates, EncounterState $encounterState): bool
     {
         // Round should advance when all actors have acted
+        // (excluding actors added mid-round)
+        $currentRound = $encounterState->getCurrentRound();
+
         foreach ($actorStates as $state) {
+            // Skip actors added in current round
+            $addedInRound = $state->getAddedInRound();
+            if ($addedInRound !== null && $addedInRound === $currentRound) {
+                continue;
+            }
+
             if (!$state->hasActed()) {
                 return false;
             }
