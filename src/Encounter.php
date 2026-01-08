@@ -219,6 +219,13 @@ class Encounter
         // Check if round should advance
         if ($this->turnOrder->shouldAdvanceRound($this->actorStates, $this->state)) {
             $this->advanceRound();
+        } elseif ($this->profile->getType() === TurnOrderType::ROUND_SIDE) {
+            // For side-based, check if current side has completed
+            if ($this->turnOrder instanceof TurnOrder\RoundBasedSide) {
+                if ($this->turnOrder->allSideActorsHaveActed($this->actorStates)) {
+                    $this->turnOrder->advanceToNextSide();
+                }
+            }
         } elseif ($this->profile->getType() === TurnOrderType::PASS && $this->shouldAdvancePass()) {
             // Check if pass should advance (pass-based only)
             $this->advancePass();
@@ -525,6 +532,13 @@ class Encounter
             ? ($this->state->getCurrentPass() ?? 1)
             : null;
 
+        // For side-based systems, only return actors from current side
+        $currentSide = null;
+        if ($this->profile->getType() === TurnOrderType::ROUND_SIDE &&
+            $this->turnOrder instanceof TurnOrder\RoundBasedSide) {
+            $currentSide = $this->turnOrder->getCurrentSide();
+        }
+
         foreach ($this->actorStates as $actorId => $state) {
             // Check if actor hasn't acted
             if ($state->hasActed() || !isset($this->actors[$actorId])) {
@@ -534,6 +548,14 @@ class Encounter
             // For pass-based systems, also check pass eligibility
             if ($currentPass !== null && !$this->isEligibleForPass($state, $currentPass)) {
                 continue;
+            }
+
+            // For side-based systems, only include actors from current side
+            if ($currentSide !== null) {
+                $actorSide = $this->actors[$actorId]->getAttributes()['side'] ?? 'default';
+                if ($actorSide !== $currentSide) {
+                    continue;
+                }
             }
 
             $unacted[] = $this->actors[$actorId];
@@ -618,6 +640,20 @@ class Encounter
                 }
             }
         }
+
+        // For side-based systems, reset to first side
+        if ($this->profile->getType() === TurnOrderType::ROUND_SIDE) {
+            if ($this->turnOrder instanceof TurnOrder\RoundBasedSide) {
+                $this->turnOrder->resetForNewRound();
+            }
+        }
+
+        // For slot-based systems, reset slots
+        if ($this->profile->getType() === TurnOrderType::SLOT) {
+            if ($this->turnOrder instanceof TurnOrder\SlotBased) {
+                $this->turnOrder->resetRound();
+            }
+        }
     }
 
     /**
@@ -627,6 +663,7 @@ class Encounter
     {
         return match ($this->profile->getType()) {
             TurnOrderType::ROUND_INDIVIDUAL => new TurnOrder\RoundBasedIndividual(),
+            TurnOrderType::ROUND_SIDE => new TurnOrder\RoundBasedSide(),
             TurnOrderType::PASS => new TurnOrder\PassBased(
                 $this->profile->getPassesPerRound() ?? 4,
                 $this->profile->isDecayEnabled(),
