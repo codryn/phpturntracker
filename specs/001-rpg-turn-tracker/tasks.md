@@ -207,13 +207,13 @@
 
 ### Tests for User Story 5 ✅ RED PHASE
 
-- [ ] T087 [P] [US5] Integration test for US5 Scenario 1 in tests/Integration/AlternativeTurnOrderTest.php: slot-based encounter with typed slots, verify any actor of matching type can fill slot
-- [ ] T088 [P] [US5] Integration test for US5 Scenario 2: popcorn encounter, verify current actor can designate next
-- [ ] T089 [P] [US5] Integration test for US5 Scenario 3: slot-based with actor chosen for slot, verify marked acted
-- [ ] T090 [P] [US5] Integration test for US5 Scenario 4: popcorn with 4/5 acted, verify last unacted automatically current
-- [ ] T091 [P] [US5] Integration test for US5 Scenario 5: popcorn or slot-based round completion, verify reset
-- [ ] T092 [P] [US5] Integration test for US5 Scenario 6: popcorn with allowRepeatPopcorn=true, verify can re-designate acted actor
-- [ ] T092a [P] [US5] Integration test for slot-based with insufficient actors edge case: 3 slots configured but only 2 actors available, verify behavior (skip slot, reuse actor, or error)
+- [X] T087 [P] [US5] Integration test for US5 Scenario 1 in tests/Integration/AlternativeTurnOrderTest.php: slot-based encounter with typed slots, verify any actor of matching type can fill slot
+- [X] T088 [P] [US5] Integration test for US5 Scenario 2: popcorn encounter, verify current actor can designate next
+- [X] T089 [P] [US5] Integration test for US5 Scenario 3: slot-based with actor chosen for slot, verify marked acted
+- [X] T090 [P] [US5] Integration test for US5 Scenario 4: popcorn with 4/5 acted, verify last unacted automatically current
+- [X] T091 [P] [US5] Integration test for US5 Scenario 5: popcorn or slot-based round completion, verify reset
+- [X] T092 [P] [US5] Integration test for US5 Scenario 6: popcorn with allowRepeatPopcorn=true, verify can re-designate acted actor
+- [X] T092a [P] [US5] Integration test for slot-based with insufficient actors edge case: 3 slots configured but only 2 actors available, verify behavior (skip slot, reuse actor, or error)
 
 ### Implementation for User Story 5 ✅ GREEN PHASE
 

@@ -385,6 +385,98 @@ class Encounter
         return $this->actorStates[$actorId] ?? null;
     }
 
+    /**
+     * Get the current slot (slot-based systems only).
+     *
+     * @return array{type: string, initiative: int, index: int}|null Slot info, or null if not slot-based
+     */
+    public function getCurrentSlot(): ?array
+    {
+        if (!($this->turnOrder instanceof TurnOrder\SlotBased)) {
+            return null;
+        }
+
+        return $this->turnOrder->getCurrentSlot();
+    }
+
+    /**
+     * Fill the current slot with an actor (slot-based systems only).
+     *
+     * @param string $actorId Actor to fill the slot
+     * @throws \RuntimeException If not slot-based or slot cannot be filled
+     */
+    public function fillSlot(string $actorId): void
+    {
+        if (!$this->state->isActive()) {
+            throw new Exceptions\EncounterNotActiveException('Cannot fill slot: encounter not active');
+        }
+
+        if (!($this->turnOrder instanceof TurnOrder\SlotBased)) {
+            throw new \RuntimeException('fillSlot() only available for slot-based systems');
+        }
+
+        if (!isset($this->actors[$actorId])) {
+            throw new Exceptions\ActorNotFoundException("Actor not found: {$actorId}");
+        }
+
+        // Fill the slot
+        $success = $this->turnOrder->fillSlot($actorId, $this->actors);
+
+        if (!$success) {
+            throw new \RuntimeException("Cannot fill slot with actor: {$actorId}");
+        }
+
+        // Mark actor as acted
+        $this->actorStates[$actorId]->markActed();
+
+        // Set as current actor
+        $this->state->setCurrentActorId($actorId);
+
+        // Check if round should advance
+        if ($this->turnOrder->shouldAdvanceRound($this->actorStates, $this->state)) {
+            $this->advanceRound();
+        }
+    }
+
+    /**
+     * Designate the next actor to act (popcorn systems only).
+     *
+     * @param string $actorId Actor to designate
+     * @throws Exceptions\InvalidDesignationException If designation is invalid
+     */
+    public function designateNext(string $actorId): void
+    {
+        if (!$this->state->isActive()) {
+            throw new Exceptions\EncounterNotActiveException('Cannot designate next: encounter not active');
+        }
+
+        if (!($this->turnOrder instanceof TurnOrder\Popcorn)) {
+            throw new \RuntimeException('designateNext() only available for popcorn systems');
+        }
+
+        if (!isset($this->actors[$actorId])) {
+            throw new Exceptions\ActorNotFoundException("Actor not found: {$actorId}");
+        }
+
+        try {
+            $this->turnOrder->designateNext($actorId, $this->actorStates);
+        } catch (\InvalidArgumentException $e) {
+            throw new Exceptions\InvalidDesignationException($e->getMessage(), 0, $e);
+        }
+
+        // Mark current actor as acted
+        $currentActorId = $this->state->getCurrentActorId();
+        if ($currentActorId !== null) {
+            $this->actorStates[$currentActorId]->markActed();
+        }
+
+        // Set designated actor as current
+        $this->state->setCurrentActorId($actorId);
+
+        // Check if round should advance after this action
+        // (will happen when designateNext is called again or advanceTurn is called)
+    }
+
 
 
     /**
@@ -539,6 +631,12 @@ class Encounter
                 $this->profile->getPassesPerRound() ?? 4,
                 $this->profile->isDecayEnabled(),
                 $this->profile->getDecayAmount()
+            ),
+            TurnOrderType::SLOT => new TurnOrder\SlotBased(
+                $this->profile->getSlotConfiguration() ?? []
+            ),
+            TurnOrderType::POPCORN => new TurnOrder\Popcorn(
+                $this->profile->allowsRepeatPopcorn()
             ),
             default => throw new \RuntimeException('Unsupported turn order type'),
         };
