@@ -70,6 +70,21 @@ class Encounter
         $this->state->setActive(true);
         $this->state->setCurrentRound(1);
 
+        // Initialize pass for pass-based systems
+        if ($this->profile->getType() === TurnOrderType::PASS) {
+            $this->state->setCurrentPass(1);
+
+            // Calculate passes for each actor
+            if ($this->turnOrder instanceof TurnOrder\PassBased) {
+                foreach ($this->actorStates as $state) {
+                    $actorId = $state->getActorId();
+                    $initiative = $this->actors[$actorId]->getInitiative();
+                    $passes = $this->turnOrder->calculatePasses($initiative);
+                    $state->setPassesRemaining($passes);
+                }
+            }
+        }
+
         // Set first actor as current
         if (!empty($turnOrder)) {
             $this->state->setCurrentActorId($turnOrder[0]);
@@ -100,9 +115,17 @@ class Encounter
 
         // Add actor and create state
         $this->actors[$actorId] = $actor;
+
+        // Calculate passes for pass-based systems
+        $passesRemaining = 0;
+        if ($this->profile->getType() === TurnOrderType::PASS && $this->turnOrder instanceof TurnOrder\PassBased) {
+            $passesRemaining = $this->turnOrder->calculatePasses($actor->getInitiative());
+        }
+
         $this->actorStates[$actorId] = new ActorState(
             $actorId,
             hasActed: false,
+            passesRemaining: $passesRemaining,
             currentInitiative: $actor->getInitiative(),
             addedInRound: $addedInRound
         );
@@ -196,6 +219,9 @@ class Encounter
         // Check if round should advance
         if ($this->turnOrder->shouldAdvanceRound($this->actorStates, $this->state)) {
             $this->advanceRound();
+        } elseif ($this->profile->getType() === TurnOrderType::PASS && $this->shouldAdvancePass()) {
+            // Check if pass should advance (pass-based only)
+            $this->advancePass();
         }
 
         // Get next actor
@@ -338,6 +364,28 @@ class Encounter
             $this->state->setCurrentActorId($nextId);
         }
     }
+    /**
+     * Get the current pass number (pass-based systems only).
+     *
+     * @return int|null Pass number, or null if not pass-based
+     */
+    public function getCurrentPass(): ?int
+    {
+        return $this->state->getCurrentPass();
+    }
+
+    /**
+     * Get actor state for a specific actor.
+     *
+     * @param string $actorId Actor ID
+     * @return ActorState|null Actor state, or null if not found
+     */
+    public function getActorState(string $actorId): ?ActorState
+    {
+        return $this->actorStates[$actorId] ?? null;
+    }
+
+
 
     /**
      * Get the current round number.
@@ -381,11 +429,22 @@ class Encounter
     public function getUnactedActors(): array
     {
         $unacted = [];
+        $currentPass = $this->profile->getType() === TurnOrderType::PASS
+            ? ($this->state->getCurrentPass() ?? 1)
+            : null;
 
         foreach ($this->actorStates as $actorId => $state) {
-            if (!$state->hasActed() && isset($this->actors[$actorId])) {
-                $unacted[] = $this->actors[$actorId];
+            // Check if actor hasn't acted
+            if ($state->hasActed() || !isset($this->actors[$actorId])) {
+                continue;
             }
+
+            // For pass-based systems, also check pass eligibility
+            if ($currentPass !== null && !$this->isEligibleForPass($state, $currentPass)) {
+                continue;
+            }
+
+            $unacted[] = $this->actors[$actorId];
         }
 
         return $unacted;
@@ -394,6 +453,54 @@ class Encounter
     /**
      * Advance to the next round.
      */
+    /**
+     * Check if pass should advance (pass-based systems only).
+     */
+    private function shouldAdvancePass(): bool
+    {
+        $currentPass = $this->state->getCurrentPass() ?? 1;
+
+        // Check if all eligible actors for current pass have acted
+        foreach ($this->actorStates as $state) {
+            if (!$state->hasActed() && $this->isEligibleForPass($state, $currentPass)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if actor is eligible for the given pass.
+     *
+     * Actor can act in pass N if their total passes >= N
+     */
+    private function isEligibleForPass(ActorState $state, int $pass): bool
+    {
+        return $state->getPassesRemaining() >= $pass;
+    }
+
+    /**
+     * Advance to next pass (pass-based systems only).
+     */
+    private function advancePass(): void
+    {
+        // Increment pass
+        $this->state->incrementPass();
+
+        // Reset acted status for actors who can act in the new pass
+        foreach ($this->actorStates as $state) {
+            $state->resetActed();
+        }
+
+        // Apply initiative decay if enabled
+        if ($this->profile->isDecayEnabled() && $this->turnOrder instanceof TurnOrder\PassBased) {
+            foreach ($this->actorStates as $state) {
+                $this->turnOrder->applyDecay($state);
+            }
+        }
+    }
+
     private function advanceRound(): void
     {
         $this->state->incrementRound();
@@ -402,6 +509,23 @@ class Encounter
         foreach ($this->actorStates as $state) {
             $state->resetActed();
         }
+
+        // For pass-based systems, reset to pass 1 and recalculate passes
+        if ($this->profile->getType() === TurnOrderType::PASS) {
+            $this->state->setCurrentPass(1);
+
+            // Recalculate passes for each actor based on (possibly decayed) initiative
+            if ($this->turnOrder instanceof TurnOrder\PassBased) {
+                foreach ($this->actorStates as $state) {
+                    $actorId = $state->getActorId();
+                    // Reset initiative to original for new round (no decay carries over)
+                    $originalInitiative = $this->actors[$actorId]->getInitiative();
+                    $state->setCurrentInitiative($originalInitiative);
+                    $passes = $this->turnOrder->calculatePasses($originalInitiative);
+                    $state->setPassesRemaining($passes);
+                }
+            }
+        }
     }
 
     /**
@@ -409,10 +533,13 @@ class Encounter
      */
     private function createTurnOrderStrategy(): TurnOrderInterface
     {
-        // For now, only support RoundBasedIndividual
-        // Other strategies will be added in later user stories
         return match ($this->profile->getType()) {
             TurnOrderType::ROUND_INDIVIDUAL => new TurnOrder\RoundBasedIndividual(),
+            TurnOrderType::PASS => new TurnOrder\PassBased(
+                $this->profile->getPassesPerRound() ?? 4,
+                $this->profile->isDecayEnabled(),
+                $this->profile->getDecayAmount()
+            ),
             default => throw new \RuntimeException('Unsupported turn order type'),
         };
     }
