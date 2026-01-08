@@ -217,23 +217,23 @@
 
 ### Implementation for User Story 5 ✅ GREEN PHASE
 
-- [ ] T093 [P] [US5] Implement SlotBased strategy in src/TurnOrder/SlotBased.php: slot generation from initiative, actor-to-slot matching, slot filling logic
-- [ ] T094 [P] [US5] Create unit test for SlotBased in tests/Unit/TurnOrder/SlotBasedTest.php
-- [ ] T095 [P] [US5] Implement Popcorn strategy in src/TurnOrder/Popcorn.php: designation tracking, automatic last-actor selection, repeat designation handling
-- [ ] T096 [P] [US5] Create unit test for Popcorn in tests/Unit/TurnOrder/PopcornTest.php
-- [ ] T097 [US5] Add slotConfiguration property to TimelineProfile for slot-based
-- [ ] T098 [US5] Add allowRepeatPopcorn property to TimelineProfile for popcorn
-- [ ] T099 [US5] Implement Encounter::designateNext() for popcorn initiative
-- [ ] T100 [US5] Add InvalidDesignationException for invalid popcorn designations
-- [ ] T101 [US5] Update TimelineProfileValidator for slot and popcorn validation rules
-- [ ] T101a [US5] Implement getCurrentSlot() method for slot-based encounters or clarify getCurrentActor() returns slot metadata
-- [ ] T102 [US5] Run integration tests - should now PASS ✅
+- [X] T093 [P] [US5] Implement SlotBased strategy in src/TurnOrder/SlotBased.php: slot generation from initiative, actor-to-slot matching, slot filling logic
+- [X] T094 [P] [US5] Create unit test for SlotBased in tests/Unit/TurnOrder/SlotBasedTest.php
+- [X] T095 [P] [US5] Implement Popcorn strategy in src/TurnOrder/Popcorn.php: designation tracking, automatic last-actor selection, repeat designation handling
+- [X] T096 [P] [US5] Create unit test for Popcorn in tests/Unit/TurnOrder/PopcornTest.php
+- [X] T097 [US5] Add slotConfiguration property to TimelineProfile for slot-based
+- [X] T098 [US5] Add allowRepeatPopcorn property to TimelineProfile for popcorn
+- [X] T099 [US5] Implement Encounter::designateNext() for popcorn initiative
+- [X] T100 [US5] Add InvalidDesignationException for invalid popcorn designations
+- [X] T101 [US5] Update TimelineProfileValidator for slot and popcorn validation rules
+- [X] T101a [US5] Implement getCurrentSlot() method for slot-based encounters or clarify getCurrentActor() returns slot metadata
+- [X] T102 [US5] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 5 ✅ REFACTOR PHASE
 
-- [ ] T103 [US5] Extract slot matching logic to helper method
-- [ ] T104 [US5] Add unit tests for popcorn edge cases (designate self, designate nonexistent)
-- [ ] T105 [US5] Run php-cs-fixer
+- [X] T103 [US5] Extract slot matching logic to helper method
+- [X] T104 [US5] Add unit tests for popcorn edge cases (designate self, designate nonexistent)
+- [X] T105 [US5] Run php-cs-fixer
 
 **Checkpoint**: User Stories 1-5 all work independently - Narrative system support functional
 

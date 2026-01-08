@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Codryn\PhpTurnTracker\TurnOrder;
 
 use Codryn\PhpTurnTracker\Actor;
+use Codryn\PhpTurnTracker\Exceptions\InvalidDesignationException;
 use Codryn\PhpTurnTracker\State\ActorState;
 use Codryn\PhpTurnTracker\State\EncounterState;
 
@@ -84,19 +85,19 @@ class Popcorn implements TurnOrderInterface
      *
      * @param string $actorId Actor to designate
      * @param array<string, ActorState> $actorStates Current actor states
-     * @throws \InvalidArgumentException If designation is invalid
+     * @throws InvalidDesignationException If designation is invalid
      */
     public function designateNext(string $actorId, array $actorStates): void
     {
         $state = $actorStates[$actorId] ?? null;
 
         if ($state === null) {
-            throw new \InvalidArgumentException("Cannot designate nonexistent actor: {$actorId}");
+            throw new InvalidDesignationException("Cannot designate nonexistent actor: {$actorId}");
         }
 
         // Check if actor has already acted
         if ($state->hasActed() && !$this->allowRepeatPopcorn) {
-            throw new \InvalidArgumentException(
+            throw new InvalidDesignationException(
                 "Cannot designate actor who has already acted: {$actorId}. " .
                 'Enable allowRepeatPopcorn to allow this.'
             );
