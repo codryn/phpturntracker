@@ -11,7 +11,7 @@ use Codryn\PhpTurnTracker\State\EncounterState;
 
 /**
  * Popcorn initiative turn order strategy (Marvel Heroic, Feng Shui, Cortex).
- *
+ * 
  * Current actor designates who acts next from actors who haven't acted yet.
  * If allowRepeatPopcorn is enabled, can re-designate actors who already acted.
  */
@@ -36,8 +36,8 @@ class Popcorn implements TurnOrderInterface
     public function calculateInitialOrder(array $actors): array
     {
         // Sort by initiative descending to determine first actor
-        usort($actors, fn ($a, $b) => $b->getInitiative() <=> $a->getInitiative());
-        $this->turnOrder = array_map(fn ($a) => $a->getId(), $actors);
+        usort($actors, fn($a, $b) => $b->getInitiative() <=> $a->getInitiative());
+        $this->turnOrder = array_map(fn($a) => $a->getId(), $actors);
         return $this->turnOrder;
     }
 
@@ -82,7 +82,7 @@ class Popcorn implements TurnOrderInterface
 
     /**
      * Designate the next actor to act.
-     *
+     * 
      * @param string $actorId Actor to designate
      * @param array<string, ActorState> $actorStates Current actor states
      * @throws InvalidDesignationException If designation is invalid
@@ -99,7 +99,7 @@ class Popcorn implements TurnOrderInterface
         if ($state->hasActed() && !$this->allowRepeatPopcorn) {
             throw new InvalidDesignationException(
                 "Cannot designate actor who has already acted: {$actorId}. " .
-                'Enable allowRepeatPopcorn to allow this.'
+                "Enable allowRepeatPopcorn to allow this."
             );
         }
 
@@ -108,7 +108,7 @@ class Popcorn implements TurnOrderInterface
 
     /**
      * Check if an actor can be designated.
-     *
+     * 
      * @param string $actorId Actor to check
      * @param array<string, ActorState> $actorStates Current actor states
      * @return bool
@@ -166,7 +166,7 @@ class Popcorn implements TurnOrderInterface
         // Remove from turn order
         $this->turnOrder = array_values(array_filter(
             $this->turnOrder,
-            fn ($id) => $id !== $actorId
+            fn($id) => $id !== $actorId
         ));
 
         // Clear designation if removed actor was designated
