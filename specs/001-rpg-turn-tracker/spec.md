@@ -6,6 +6,17 @@
 **Input**: User description: "The library provided a turn order tracker for TRPG. It must support all major rpg systems by passing a timeline profile to the tracker. The tracker shall allow to start an encounter, add and remove actors, get the current actor, advance to next turn. It shall support rounds, passes and turns. Important is that it keeps track which actors already have taken their actions and which are still waiting for their turn in a round/pass. This is important to ensure the correct next actor when an actor gets it initiative reduced or increased or when it delays its action."
 
 
+## Clarifications
+
+### Session 2026-01-08
+
+- Q: The spec mentions "tick-based" systems in FR-001 but provides no user story, acceptance criteria, or implementation details for this turn order model. Should tick-based be fully scoped now, removed, or deferred? → A: Keep the mention in FR-001 but explicitly mark tick-based as "future extension / V2" in requirements
+- Q: In initiative tie scenarios, what should the default behavior be when no explicit tie-breaker is configured? → A: Stable insertion order (first added wins ties)
+- Q: For pass-based systems with initiative decay (Shadowrun), different editions use different decay values (SR4: -10, SR5: -5, SR6: variable). Should decay amount be hardcoded or configurable? → A: Configurable decay amount in timeline profile (parameter: decayAmount, default: 10)
+- Q: Should the system enforce minimum/maximum bounds for initiative values, and what happens when a change would exceed them? → A: Optional configurable min/max bounds in timeline profile; reject out-of-bounds changes when configured
+- Q: For popcorn initiative, when the current actor designates the next actor, what happens if they try to designate an actor who has already acted this round? → A: Allow it if explicitly configured in timeline profile (optional "allow-repeat-popcorn" flag)
+
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Basic Turn Progression (Priority: P1)
@@ -75,7 +86,7 @@ As a game master running Shadowrun, I need combat to progress through multiple p
 2. **Given** pass 1 with all actors having acted, **When** I advance to next turn, **Then** pass 2 begins with only the actors who have 2+ passes available (25 and 18), and actor with 10 is not available
 3. **Given** pass 2 with actors 25 and 18 having acted, **When** I advance to next turn, **Then** pass 3 begins with only actor 25 available
 4. **Given** pass 3 completed, **When** I advance to next turn, **Then** round 2 pass 1 begins with all actors reset and available again
-5. **Given** Shadowrun encounter with initiative decay enabled, **When** pass 2 begins, **Then** all actor initiative scores are reduced by 10 points (per Shadowrun rules) while maintaining their relative order
+5. **Given** Shadowrun encounter with initiative decay enabled, **When** pass 2 begins, **Then** all actor initiative scores are reduced by the configured decay amount (e.g., 10 points for SR4, 5 for SR5) while maintaining their relative order
 
 ---
 
@@ -93,7 +104,8 @@ As a game master running Genesys or narrative RPG systems, I need support for no
 2. **Given** a popcorn initiative encounter with 5 actors, **When** current actor completes their turn, **Then** they can designate any other actor who hasn't acted this round as the next actor
 3. **Given** a slot-based encounter with current slot designated "NPC", **When** an NPC actor is chosen to fill that slot, **Then** that actor is marked as acted and the next slot becomes current
 4. **Given** a popcorn encounter where 4 of 5 actors have acted, **When** current actor completes their turn, **Then** the only remaining actor who hasn't acted automatically becomes current
-5. **Given** all slots filled or all actors having acted in popcorn mode, **When** next turn is requested, **Then** round increments and all slots/actors reset for a new round
+5. **Given** all slots filled or all actors having acted in popcorn mode with allowRepeatPopcorn=false, **When** next turn is requested, **Then** round increments and all slots/actors reset for a new round
+6. **Given** popcorn mode with allowRepeatPopcorn=true and all actors have acted, **When** current actor designates an actor who already acted, **Then** that actor becomes current again and can take another action within the same round
 
 ---
 
@@ -123,7 +135,7 @@ As a game master running older D&D editions or war games, I need support for sid
   - Expected: That actor is always current; advancing turn increments the round and returns to the same actor
   
 - **Initiative ties**: What happens when multiple actors have identical initiative scores?
-  - Expected: System uses configured tie-breaker rules (e.g., dexterity score, random, or user-specified order) to establish consistent turn order
+  - Expected: System uses configured tie-breaker rules (e.g., dexterity score, random, or user-specified order) to establish consistent turn order. When no tie-breaker is configured, uses stable insertion order (first actor added wins)
   
 - **Remove all actors mid-encounter**: What happens when all actors are removed during an active encounter?
   - Expected: Encounter remains active but in waiting state; adding new actors resumes the encounter in the current round
@@ -132,13 +144,13 @@ As a game master running older D&D editions or war games, I need support for sid
   - Expected: Delayed actor is placed after existing actors at that initiative (or before, based on configuration)
   
 - **Change initiative beyond valid range**: What happens when trying to set an actor's initiative to a negative number or above maximum?
-  - Expected: System validates against configured min/max initiative values and rejects invalid changes
+  - Expected: When timeline profile specifies optional min/max initiative bounds, system validates changes and rejects values outside the configured range. When no bounds configured, all integer values are allowed
   
 - **Multi-pass with initiative increase**: What happens when an actor's initiative increases mid-round in a pass-based system, granting them an additional pass?
   - Expected: Actor gains the additional pass starting next round; current round's pass availability doesn't change mid-round
   
 - **Popcorn mode with last actor**: What happens in popcorn mode when the last actor to act has no one else to designate?
-  - Expected: System automatically ends the round and starts next round, or allows actor to re-designate someone who already acted (based on configuration)
+  - Expected: If allowRepeatPopcorn flag is false (default), system automatically ends the round and starts next round. If flag is true, actor can re-designate someone who already acted, continuing the round
   
 - **Slot-based with insufficient actors**: What happens when there are 3 NPC slots but only 2 NPC actors available?
   - Expected: The 2 NPCs fill 2 slots; the third slot is skipped/auto-filled by one NPC acting twice, or configuration determines behavior
@@ -150,7 +162,7 @@ As a game master running older D&D editions or war games, I need support for sid
 
 ### Functional Requirements
 
-- **FR-001**: System MUST accept a timeline profile configuration that defines the turn order model (round-based individual, round-based side, pass-based, slot-based, popcorn, or tick-based)
+- **FR-001**: System MUST accept a timeline profile configuration that defines the turn order model (round-based individual, round-based side, pass-based, slot-based, or popcorn). Note: Tick-based systems are explicitly deferred to a future version.
 
 - **FR-002**: System MUST allow starting an encounter, which activates turn tracking and establishes the first actor/slot as current
 
@@ -172,17 +184,17 @@ As a game master running older D&D editions or war games, I need support for sid
 
 - **FR-011**: System MUST support actors delaying their action to a lower initiative, moving them to the new position in turn order while maintaining their "not acted" status
 
-- **FR-012**: System MUST handle initiative ties using configurable tie-breaking rules (secondary attribute comparison, random determination, or explicit ordering)
+- **FR-012**: System MUST handle initiative ties using configurable tie-breaking rules (secondary attribute comparison, random determination, or explicit ordering). Default behavior when no tie-breaker is configured: stable insertion order (first actor added to encounter wins ties).
 
 - **FR-013**: System MUST support pass-based systems with configurable number of passes per round and actor-specific pass availability based on initiative scores
 
-- **FR-014**: System MUST support optional initiative decay in pass-based systems, reducing initiative scores by a configured amount each pass
+- **FR-014**: System MUST support optional initiative decay in pass-based systems, reducing initiative scores by a configurable amount (timeline profile parameter: decayAmount, default: 10) each pass
 
 - **FR-015**: System MUST support side-based initiative where actors are grouped into sides and all members of a side act before the opposing side
 
 - **FR-016**: System MUST support slot-based initiative where initiative determines slots (e.g., "PC slot", "NPC slot") and any actor of the matching type can fill the slot
 
-- **FR-017**: System MUST support popcorn initiative where the current actor designates which actor acts next from those who haven't acted this round
+- **FR-017**: System MUST support popcorn initiative where the current actor designates which actor acts next from those who haven't acted this round. Optionally supports timeline profile flag "allowRepeatPopcorn" to permit designation of actors who have already acted (default: false)
 
 - **FR-018**: System MUST track the current round number, incrementing it when all actors/passes/slots complete their turns
 
@@ -190,9 +202,11 @@ As a game master running older D&D editions or war games, I need support for sid
 
 - **FR-020**: System MUST validate timeline profile configurations to ensure all required parameters are provided and valid for the selected turn order model
 
-- **FR-021**: System MUST handle edge cases including empty encounters, single-actor encounters, and mid-encounter actor list changes without corrupting turn order
+- **FR-021**: System MUST validate initiative values against optional min/max bounds (if configured in timeline profile) when adding actors or changing initiative mid-encounter, rejecting out-of-bounds values
 
-- **FR-022**: System MUST support multiple concurrent encounters operating independently without interfering with each other
+- **FR-022**: System MUST handle edge cases including empty encounters, single-actor encounters, and mid-encounter actor list changes without corrupting turn order
+
+- **FR-023**: System MUST support multiple concurrent encounters operating independently without interfering with each other
 
 ### Key Entities
 
@@ -200,7 +214,7 @@ As a game master running older D&D editions or war games, I need support for sid
 
 - **Actor**: Represents a participant in an encounter. Contains initiative score, unique identifier, acted/unacted status, side affiliation (if applicable), number of passes (if applicable), and tie-breaker attributes. Can be added/removed dynamically and have their initiative modified.
 
-- **Timeline Profile**: Defines the turn order model and rules for an encounter. Contains turn order type (round/pass/slot/popcorn/tick), number of passes (if applicable), tie-breaking rules, initiative decay settings, valid initiative range, and any system-specific parameters. Configured before encounter starts and remains immutable during encounter.
+- **Timeline Profile**: Defines the turn order model and rules for an encounter. Contains turn order type (round/pass/slot/popcorn), number of passes (if applicable), tie-breaking rules, initiative decay settings (enabled flag and decayAmount parameter, default: 10), optional initiative bounds (min/max values; unbounded if not specified), popcorn initiative settings (allowRepeatPopcorn flag, default: false), and any system-specific parameters. Configured before encounter starts and remains immutable during encounter.
 
 - **Turn Order**: The calculated sequence of actors or slots determining who acts when. Derived from actors' initiative scores and timeline profile rules. Updates dynamically when actors are added/removed or initiative changes.
 
