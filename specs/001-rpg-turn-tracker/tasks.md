@@ -172,28 +172,28 @@
 
 ### Tests for User Story 4 ✅ RED PHASE
 
-- [ ] T071 [P] [US4] Integration test for US4 Scenario 1 in tests/Integration/MultiPassSystemTest.php: start pass-based encounter, verify all actors available in pass 1
-- [ ] T072 [P] [US4] Integration test for US4 Scenario 2: advance to pass 2, verify only actors with 2+ passes available
-- [ ] T073 [P] [US4] Integration test for US4 Scenario 3: advance to pass 3, verify only actors with 3 passes available
-- [ ] T074 [P] [US4] Integration test for US4 Scenario 4: complete all passes, verify round increment and reset
-- [ ] T075 [P] [US4] Integration test for US4 Scenario 5: verify initiative decay applied correctly each pass
+- [X] T071 [P] [US4] Integration test for US4 Scenario 1 in tests/Integration/MultiPassSystemTest.php: start pass-based encounter, verify all actors available in pass 1
+- [X] T072 [P] [US4] Integration test for US4 Scenario 2: advance to pass 2, verify only actors with 2+ passes available
+- [X] T073 [P] [US4] Integration test for US4 Scenario 3: advance to pass 3, verify only actors with 3 passes available
+- [X] T074 [P] [US4] Integration test for US4 Scenario 4: complete all passes, verify round increment and reset
+- [X] T075 [P] [US4] Integration test for US4 Scenario 5: verify initiative decay applied correctly each pass
 
 ### Implementation for User Story 4 ✅ GREEN PHASE
 
-- [ ] T076 [US4] Implement PassBased strategy in src/TurnOrder/PassBased.php: calculateInitialOrder with pass calculation, getNextActor with pass eligibility, shouldAdvancePass, initiative decay logic
-- [ ] T077 [US4] Create unit test for PassBased in tests/Unit/TurnOrder/PassBasedTest.php (pass tracking, decay, eligibility)
-- [ ] T078 [US4] Add pass-specific properties to TimelineProfile (passesPerRound, decayEnabled, decayAmount)
-- [ ] T079 [US4] Update TimelineProfileValidator for pass-based validation rules
-- [ ] T080 [US4] Add getCurrentPass() method to Encounter for pass-based encounters
-- [ ] T081 [US4] Update Encounter::advanceTurn() to handle pass advancement and decay application
-- [ ] T082 [US4] Update ActorState to track passesRemaining for pass-based systems
-- [ ] T083 [US4] Run integration tests - should now PASS ✅
+- [X] T076 [US4] Implement PassBased strategy in src/TurnOrder/PassBased.php: calculateInitialOrder with pass calculation, getNextActor with pass eligibility, shouldAdvancePass, initiative decay logic
+- [X] T077 [US4] Create unit test for PassBased in tests/Unit/TurnOrder/PassBasedTest.php (pass tracking, decay, eligibility)
+- [X] T078 [US4] Add pass-specific properties to TimelineProfile (passesPerRound, decayEnabled, decayAmount)
+- [X] T079 [US4] Update TimelineProfileValidator for pass-based validation rules
+- [X] T080 [US4] Add getCurrentPass() method to Encounter for pass-based encounters
+- [X] T081 [US4] Update Encounter::advanceTurn() to handle pass advancement and decay application
+- [X] T082 [US4] Update ActorState to track passesRemaining for pass-based systems
+- [X] T083 [US4] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 4 ✅ REFACTOR PHASE
 
-- [ ] T084 [US4] Extract pass eligibility calculation to helper method
-- [ ] T085 [US4] Add unit tests for decay edge cases (decay to negative, decay with bounds)
-- [ ] T086 [US4] Run php-cs-fixer
+- [X] T084 [US4] Extract pass eligibility calculation to helper method
+- [X] T085 [US4] Add unit tests for decay edge cases (decay to negative, decay with bounds)
+- [X] T086 [US4] Run php-cs-fixer
 
 **Checkpoint**: User Stories 1-4 all work independently - Shadowrun-style combat functional
 
