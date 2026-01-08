@@ -19,14 +19,14 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create composer.json with package metadata: name=codryn/phpturntracker, PHP ^8.0 requirement, PSR-4 autoloading (Codryn\\PhpTurnTracker), PHPUnit dev dependency
-- [ ] T002 Create phpunit.xml with test suite configuration, 90% coverage requirement, bootstrap, strict mode
-- [ ] T003 Create .php-cs-fixer.php with PSR-12 rules configuration
-- [ ] T004 [P] Create .gitignore with vendor/, .phpunit.cache/, coverage/, .php-cs-fixer.cache
-- [ ] T005 [P] Create LICENSE file (MIT recommended for libraries)
-- [ ] T006 [P] Create CHANGELOG.md with v1.0.0 section placeholder
-- [ ] T007 [P] Create directory structure: src/, src/TurnOrder/, src/State/, src/Validators/, src/Exceptions/, tests/Unit/, tests/Integration/, tests/Fixtures/
-- [ ] T008 Run composer install to verify setup
+- [X] T001 Create composer.json with package metadata: name=codryn/phpturntracker, PHP ^8.0 requirement, PSR-4 autoloading (Codryn\\PhpTurnTracker), PHPUnit dev dependency
+- [X] T002 Create phpunit.xml with test suite configuration, 90% coverage requirement, bootstrap, strict mode
+- [X] T003 Create .php-cs-fixer.php with PSR-12 rules configuration
+- [X] T004 [P] Create .gitignore with vendor/, .phpunit.cache/, coverage/, .php-cs-fixer.cache
+- [X] T005 [P] Create LICENSE file (MIT recommended for libraries)
+- [X] T006 [P] Create CHANGELOG.md with v1.0.0 section placeholder
+- [X] T007 [P] Create directory structure: src/, src/TurnOrder/, src/State/, src/Validators/, src/Exceptions/, tests/Unit/, tests/Integration/, tests/Fixtures/
+- [X] T008 Run composer install to verify setup
 
 **Checkpoint**: Project structure ready, composer autoloading works
 
@@ -38,25 +38,25 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T009 [P] Create base exception PhpTurnTrackerException in src/Exceptions/PhpTurnTrackerException.php
-- [ ] T010 [P] Create TurnOrderType class with constants (ROUND_INDIVIDUAL, ROUND_SIDE, PASS, SLOT, POPCORN) in src/TurnOrderType.php
-- [ ] T011 [P] Create test for TurnOrderType in tests/Unit/TurnOrderTypeTest.php (validate all constants, isValid() method)
-- [ ] T012 Create Actor entity in src/Actor.php with constructor promotion (id, name, initiative, attributes), getters, PHPDoc
-- [ ] T013 Create test for Actor in tests/Unit/ActorTest.php (construction, getters, attributes)
-- [ ] T014 Create ActorState in src/State/ActorState.php with hasActed tracking, passesRemaining for pass-based
-- [ ] T015 Create test for ActorState in tests/Unit/State/ActorStateTest.php (state transitions)
-- [ ] T016 Create EncounterState in src/State/EncounterState.php with round, pass, currentActorId, isActive tracking
-- [ ] T017 Create test for EncounterState in tests/Unit/State/EncounterStateTest.php (state mutations, round/pass increments)
-- [ ] T018 [P] Create all exception classes in src/Exceptions/: InvalidTimelineProfileException, InvalidInitiativeException, EncounterNotActiveException, EncounterAlreadyActiveException, ActorNotFoundException, DuplicateActorException, NoActorsException, ActorAlreadyActedException, InvalidDelayException, InvalidDesignationException, InvalidTurnOrderTypeException
-- [ ] T019 Create TurnOrderInterface in src/TurnOrder/TurnOrderInterface.php with strategy contract methods (calculateInitialOrder, getNextActor, addActor, removeActor, changeInitiative, shouldAdvanceRound, shouldAdvancePass)
-- [ ] T020 Create TimelineProfile in src/TimelineProfile.php with all configuration properties (type, min/max initiative, tie-breaker, pass config, popcorn config, slot config), getters, validate() method
-- [ ] T021 Create test for TimelineProfile in tests/Unit/TimelineProfileTest.php (construction, validation of invalid configs)
-- [ ] T022 Create InitiativeValidator in src/Validators/InitiativeValidator.php with bounds checking logic
-- [ ] T023 Create test for InitiativeValidator in tests/Unit/Validators/InitiativeValidatorTest.php (boundary cases, unbounded)
-- [ ] T024 Create TimelineProfileValidator in src/Validators/TimelineProfileValidator.php with profile validation logic
-- [ ] T025 Create test for TimelineProfileValidator in tests/Unit/Validators/TimelineProfileValidatorTest.php (all validation rules)
-- [ ] T026 Create ActorFactory fixture in tests/Fixtures/ActorFactory.php for test data generation
-- [ ] T027 Create TimelineProfiles fixture in tests/Fixtures/TimelineProfiles.php with D&D5e, Shadowrun4, Shadowrun5, OSR, Genesys, Popcorn profiles
+- [X] T009 [P] Create base exception PhpTurnTrackerException in src/Exceptions/PhpTurnTrackerException.php
+- [X] T010 [P] Create TurnOrderType class with constants (ROUND_INDIVIDUAL, ROUND_SIDE, PASS, SLOT, POPCORN) in src/TurnOrderType.php
+- [X] T011 [P] Create test for TurnOrderType in tests/Unit/TurnOrderTypeTest.php (validate all constants, isValid() method)
+- [X] T012 Create Actor entity in src/Actor.php with constructor promotion (id, name, initiative, attributes), getters, PHPDoc
+- [X] T013 Create test for Actor in tests/Unit/ActorTest.php (construction, getters, attributes)
+- [X] T014 Create ActorState in src/State/ActorState.php with hasActed tracking, passesRemaining for pass-based
+- [X] T015 Create test for ActorState in tests/Unit/State/ActorStateTest.php (state transitions)
+- [X] T016 Create EncounterState in src/State/EncounterState.php with round, pass, currentActorId, isActive tracking
+- [X] T017 Create test for EncounterState in tests/Unit/State/EncounterStateTest.php (state mutations, round/pass increments)
+- [X] T018 [P] Create all exception classes in src/Exceptions/: InvalidTimelineProfileException, InvalidInitiativeException, EncounterNotActiveException, EncounterAlreadyActiveException, ActorNotFoundException, DuplicateActorException, NoActorsException, ActorAlreadyActedException, InvalidDelayException, InvalidDesignationException, InvalidTurnOrderTypeException
+- [X] T019 Create TurnOrderInterface in src/TurnOrder/TurnOrderInterface.php with strategy contract methods (calculateInitialOrder, getNextActor, addActor, removeActor, changeInitiative, shouldAdvanceRound, shouldAdvancePass)
+- [X] T020 Create TimelineProfile in src/TimelineProfile.php with all configuration properties (type, min/max initiative, tie-breaker, pass config, popcorn config, slot config), getters, validate() method
+- [X] T021 Create test for TimelineProfile in tests/Unit/TimelineProfileTest.php (construction, validation of invalid configs)
+- [X] T022 Create InitiativeValidator in src/Validators/InitiativeValidator.php with bounds checking logic
+- [X] T023 Create test for InitiativeValidator in tests/Unit/Validators/InitiativeValidatorTest.php (boundary cases, unbounded)
+- [X] T024 Create TimelineProfileValidator in src/Validators/TimelineProfileValidator.php with profile validation logic
+- [X] T025 Create test for TimelineProfileValidator in tests/Unit/Validators/TimelineProfileValidatorTest.php (all validation rules)
+- [X] T026 Create ActorFactory fixture in tests/Fixtures/ActorFactory.php for test data generation
+- [X] T027 Create TimelineProfiles fixture in tests/Fixtures/TimelineProfiles.php with D&D5e, Shadowrun4, Shadowrun5, OSR, Genesys, Popcorn profiles
 
 **Checkpoint**: Foundation ready - all core entities, state objects, validators tested. User story implementation can now begin in parallel.
 
@@ -72,28 +72,28 @@
 
 > **TDD: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T028 [P] [US1] Integration test for US1 Scenario 1 in tests/Integration/BasicTurnProgressionTest.php: start encounter, verify first actor current
-- [ ] T029 [P] [US1] Integration test for US1 Scenario 2: advance turn, verify next actor current and previous marked acted
-- [ ] T030 [P] [US1] Integration test for US1 Scenario 3: complete round, verify round increment and acted status reset
-- [ ] T031 [P] [US1] Integration test for US1 Scenario 4: getCurrentActor() returns correct actor
-- [ ] T032 [P] [US1] Integration test for US1 Scenario 5: query tracker state (round number, acted/unacted lists)
+- [X] T028 [P] [US1] Integration test for US1 Scenario 1 in tests/Integration/BasicTurnProgressionTest.php: start encounter, verify first actor current
+- [X] T029 [P] [US1] Integration test for US1 Scenario 2: advance turn, verify next actor current and previous marked acted
+- [X] T030 [P] [US1] Integration test for US1 Scenario 3: complete round, verify round increment and acted status reset
+- [X] T031 [P] [US1] Integration test for US1 Scenario 4: getCurrentActor() returns correct actor
+- [X] T032 [P] [US1] Integration test for US1 Scenario 5: query tracker state (round number, acted/unacted lists)
 
 ### Implementation for User Story 1 ✅ GREEN PHASE
 
-- [ ] T033 [US1] Implement RoundBasedIndividual strategy in src/TurnOrder/RoundBasedIndividual.php: calculateInitialOrder (sort by initiative desc, stable order for ties), getNextActor (cycle through sorted list), shouldAdvanceRound
-- [ ] T034 [US1] Create unit test for RoundBasedIndividual in tests/Unit/TurnOrder/RoundBasedIndividualTest.php (sorting, cycling, tie-breaking)
-- [ ] T035 [US1] Implement Encounter class in src/Encounter.php: constructor with TimelineProfile, start() method, state tracking, strategy delegation
-- [ ] T036 [US1] Implement Encounter::addActor() with validation, state creation
-- [ ] T037 [US1] Implement Encounter::getCurrentActor() returning current Actor or null
-- [ ] T038 [US1] Implement Encounter::advanceTurn() with actor state updates, next actor calculation, round advancement logic
-- [ ] T039 [US1] Implement Encounter::getCurrentRound(), isActive(), getActedActors(), getUnactedActors() query methods
-- [ ] T040 [US1] Run integration tests - should now PASS ✅
+- [X] T033 [US1] Implement RoundBasedIndividual strategy in src/TurnOrder/RoundBasedIndividual.php: calculateInitialOrder (sort by initiative desc, stable order for ties), getNextActor (cycle through sorted list), shouldAdvanceRound
+- [X] T034 [US1] Create unit test for RoundBasedIndividual in tests/Unit/TurnOrder/RoundBasedIndividualTest.php (sorting, cycling, tie-breaking)
+- [X] T035 [US1] Implement Encounter class in src/Encounter.php: constructor with TimelineProfile, start() method, state tracking, strategy delegation
+- [X] T036 [US1] Implement Encounter::addActor() with validation, state creation
+- [X] T037 [US1] Implement Encounter::getCurrentActor() returning current Actor or null
+- [X] T038 [US1] Implement Encounter::advanceTurn() with actor state updates, next actor calculation, round advancement logic
+- [X] T039 [US1] Implement Encounter::getCurrentRound(), isActive(), getActedActors(), getUnactedActors() query methods
+- [X] T040 [US1] Run integration tests - should now PASS ✅
 
 ### Refactor for User Story 1 ✅ REFACTOR PHASE
 
-- [ ] T041 [US1] Add PHPDoc comments to all Encounter public methods
-- [ ] T042 [US1] Extract tie-breaker logic to private method in RoundBasedIndividual
-- [ ] T043 [US1] Run php-cs-fixer to enforce PSR-12 compliance
+- [X] T041 [US1] Add PHPDoc comments to all Encounter public methods
+- [X] T042 [US1] Extract tie-breaker logic to private method in RoundBasedIndividual
+- [X] T043 [US1] Run php-cs-fixer to enforce PSR-12 compliance
 
 **Checkpoint**: User Story 1 complete - D&D-style combat works end-to-end, independently testable
 
