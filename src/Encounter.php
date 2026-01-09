@@ -212,8 +212,11 @@ class Encounter
             throw new NoActorsException('Cannot advance turn with no actors');
         }
 
-        // Mark current actor as having acted
+        // Track previous actor before advancing
         $currentId = $this->state->getCurrentActorId();
+        $this->state->setPreviousActorId($currentId);
+
+        // Mark current actor as having acted
         if ($currentId !== null && isset($this->actorStates[$currentId])) {
             $this->actorStates[$currentId]->markActed();
         }
@@ -243,6 +246,53 @@ class Encounter
         $this->state->setCurrentActorId($nextId);
     }
 
+    /**
+     * Rewind to the previous actor's turn.
+     *
+     * Undoes the last turn advancement, restoring the previous actor as current
+     * and unmarking them as having acted. If the previous actor was delayed,
+     * restores their original initiative.
+     *
+     * @throws EncounterNotActiveException If encounter not active
+     * @throws \RuntimeException If no previous actor to rewind to
+     */
+    public function rewindTurn(): void
+    {
+        if (!$this->state->isActive()) {
+            throw new EncounterNotActiveException('Cannot rewind turn: encounter not active');
+        }
+
+        $previousId = $this->state->getPreviousActorId();
+
+        if ($previousId === null || !isset($this->actors[$previousId])) {
+            throw new \RuntimeException('No previous actor to rewind to');
+        }
+
+        // Check if previous actor was delayed (currentInitiative differs from base initiative)
+        $baseInitiative = $this->actors[$previousId]->getInitiative();
+        $currentInitiative = $this->actorStates[$previousId]->getCurrentInitiative();
+
+        if ($currentInitiative !== $baseInitiative) {
+            // Restore original initiative (undo delay)
+            $this->actorStates[$previousId]->setCurrentInitiative($baseInitiative);
+
+            // Notify turn order strategy to recalculate
+            $this->turnOrder->changeInitiative(
+                $previousId,
+                $baseInitiative,
+                $this->actors,
+                $this->actorStates,
+                $this->state
+            );
+        }
+
+        // Unmark previous actor as having acted
+        $this->actorStates[$previousId]->resetActed();
+
+        // Restore previous actor as current
+        $this->state->setCurrentActorId($previousId);
+        $this->state->setPreviousActorId(null);
+    }
 
     /**
      * Change an actor's initiative mid-encounter.
@@ -301,6 +351,7 @@ class Encounter
             $actorId,
             $newInitiative,
             $this->actors,
+            $this->actorStates,
             $this->state
         );
     }
@@ -375,11 +426,13 @@ class Encounter
             $actorId,
             $newInitiative,
             $this->actors,
+            $this->actorStates,
             $this->state
         );
 
-        // If delaying current actor, set next actor as current
+        // If delaying current actor, set next actor as current and track the delayed actor
         if ($isCurrentActor && $nextId !== null) {
+            $this->state->setPreviousActorId($actorId);
             $this->state->setCurrentActorId($nextId);
         }
     }
@@ -534,7 +587,7 @@ class Encounter
         // Reset all actor states to initial values
         foreach ($this->actorStates as $actorId => $state) {
             $originalInitiative = $this->actors[$actorId]->getInitiative();
-            
+
             // Calculate passes for pass-based systems
             $passesRemaining = 0;
             if ($this->profile->getType() === TurnOrderType::PASS && $this->turnOrder instanceof TurnOrder\PassBased) {
@@ -712,7 +765,7 @@ class Encounter
         // Reset all actor acted status and restore original initiative (clearing temporary delays)
         foreach ($this->actorStates as $state) {
             $state->resetActed();
-            
+
             // Restore original initiative from Actor (clears temporary delays)
             $actorId = $state->getActorId();
             if (isset($this->actors[$actorId])) {

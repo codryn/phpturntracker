@@ -216,12 +216,12 @@ class RoundBasedSide implements TurnOrderInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
+     * {@inheritDoc}\n     */
     public function changeInitiative(
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void {
         // In side-based initiative, individual actor initiative changes don't affect turn order

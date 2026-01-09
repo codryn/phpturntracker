@@ -153,6 +153,7 @@ class PassBased implements TurnOrderInterface
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void {
         // Recalculate turn order with updated initiative

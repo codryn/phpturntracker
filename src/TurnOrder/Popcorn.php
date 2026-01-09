@@ -182,6 +182,7 @@ class Popcorn implements TurnOrderInterface
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void {
         // In popcorn initiative, initiative only determines first actor

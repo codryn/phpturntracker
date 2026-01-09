@@ -201,6 +201,7 @@ class SlotBased implements TurnOrderInterface
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void {
         // Initiative changes don't affect slot configuration

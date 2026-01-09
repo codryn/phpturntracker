@@ -62,12 +62,14 @@ interface TurnOrderInterface
      * @param string $actorId ID of actor whose initiative is changing
      * @param int $newInitiative New initiative value
      * @param Actor[] $actors All actors in the encounter
+     * @param ActorState[] $actorStates State for each actor (keyed by ID)
      * @param EncounterState $encounterState Current encounter state
      */
     public function changeInitiative(
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void;
 
