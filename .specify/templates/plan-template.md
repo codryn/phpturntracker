@@ -17,21 +17,46 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: PHP 8.1+ (or NEEDS CLARIFICATION)  
+**Primary Dependencies**: [e.g., symfony/console, monolog/monolog or NEEDS CLARIFICATION]  
+**Storage**: [if applicable, e.g., MySQL, SQLite, files or N/A]  
+**Testing**: PHPUnit 10+ (required per constitution)  
+**Target Platform**: [e.g., CLI application, web library, or NEEDS CLARIFICATION]
+**Project Type**: single (Composer package - PHP library structure)  
+**Performance Goals**: [domain-specific, e.g., <100ms per operation, 1000 turns/sec or NEEDS CLARIFICATION]  
+**Constraints**: [domain-specific, e.g., no external services, thread-safe, stateless or NEEDS CLARIFICATION]  
+**Scale/Scope**: [domain-specific, e.g., support 100+ concurrent games, handle 10k turns or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+### Composer Package Standards
+- [ ] Feature design compatible with Composer package structure (PSR-4 autoloading)
+- [ ] Dependencies identified and version constraints defined
+- [ ] No changes that break semantic versioning contract
+
+### PSR-12 Coding Standards
+- [ ] Code style enforcement configured (php-cs-fixer or phpcs)
+- [ ] All new code will follow PSR-12 specification
+- [ ] `.php-cs-fixer.php` or `phpcs.xml` present in repository
+
+### Test-Driven Development
+- [ ] Test scenarios defined BEFORE implementation (see spec.md)
+- [ ] Red-Green-Refactor cycle planned in tasks.md
+- [ ] Stakeholder approval obtained for acceptance criteria
+
+### PHPUnit Testing Coverage
+- [ ] PHPUnit test strategy defined (unit + integration)
+- [ ] Tests executable via `composer test` or `vendor/bin/phpunit`
+- [ ] Coverage target: 90% minimum for new code
+- [ ] `phpunit.xml` configuration present
+
+### Complete Documentation
+- [ ] README.md updates planned (if public API changes)
+- [ ] PHPDoc comments required for all public methods
+- [ ] Usage examples included in feature documentation
+- [ ] CHANGELOG.md entry planned for this feature
 
 ## Project Structure
 
@@ -51,29 +76,30 @@ specs/[###-feature]/
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
+  real paths (e.g., src/TurnTracker, src/Models). The delivered plan must
   not include Option labels.
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+# PHP Composer Package (DEFAULT for phpturntracker)
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
+├── Models/
+├── Services/
+├── Exceptions/
+└── Contracts/
 
 tests/
-├── contract/
-├── integration/
-└── unit/
+├── Unit/
+├── Integration/
+└── Fixtures/
 
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
+# [REMOVE IF UNUSED] Option 2: Web application (if API component added)
 backend/
 ├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
+│   ├── Models/
+│   ├── Services/
+│   ├── Controllers/
+│   └── Api/
 └── tests/
 
 frontend/
@@ -82,17 +108,11 @@ frontend/
 │   ├── pages/
 │   └── services/
 └── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
 ```
 
 **Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
+directories captured above. For phpturntracker, this is typically a single
+Composer package following PSR-4 autoloading standards.]
 
 ## Complexity Tracking
 
