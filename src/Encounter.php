@@ -309,7 +309,9 @@ class Encounter
      * Delay an actor's action to a lower initiative.
      *
      * Actor must not have acted yet, and new initiative must be lower than current.
-     * Turn advances to next actor immediately.
+     * Turn advances to next actor immediately. This is a TEMPORARY change for the
+     * current round only - the actor's actual initiative is unchanged and will be
+     * restored on the next round. For permanent changes, use changeInitiative().
      *
      * @param string $actorId Actor to delay
      * @param int $newInitiative New (lower) initiative score
@@ -337,8 +339,8 @@ class Encounter
             );
         }
 
-        // Validate new initiative is lower
-        $currentInitiative = $this->actors[$actorId]->getInitiative();
+        // Validate new initiative is lower than current (use currentInitiative for temporary changes)
+        $currentInitiative = $this->actorStates[$actorId]->getCurrentInitiative();
         if ($newInitiative >= $currentInitiative) {
             throw new InvalidDelayException(
                 sprintf(
@@ -365,8 +367,16 @@ class Encounter
             );
         }
 
-        // Change initiative (this will recalculate turn order)
-        $this->changeInitiative($actorId, $newInitiative);
+        // Temporarily update actor state's current initiative (NOT the actor's base initiative)
+        $this->actorStates[$actorId]->setCurrentInitiative($newInitiative);
+
+        // Notify turn order strategy to recalculate turn order based on temporary change
+        $this->turnOrder->changeInitiative(
+            $actorId,
+            $newInitiative,
+            $this->actors,
+            $this->state
+        );
 
         // If delaying current actor, set next actor as current
         if ($isCurrentActor && $nextId !== null) {
@@ -621,9 +631,16 @@ class Encounter
     {
         $this->state->incrementRound();
 
-        // Reset all actor acted status
+        // Reset all actor acted status and restore original initiative (clearing temporary delays)
         foreach ($this->actorStates as $state) {
             $state->resetActed();
+            
+            // Restore original initiative from Actor (clears temporary delays)
+            $actorId = $state->getActorId();
+            if (isset($this->actors[$actorId])) {
+                $originalInitiative = $this->actors[$actorId]->getInitiative();
+                $state->setCurrentInitiative($originalInitiative);
+            }
         }
 
         // For pass-based systems, reset to pass 1 and recalculate passes
@@ -634,9 +651,8 @@ class Encounter
             if ($this->turnOrder instanceof TurnOrder\PassBased) {
                 foreach ($this->actorStates as $state) {
                     $actorId = $state->getActorId();
-                    // Reset initiative to original for new round (no decay carries over)
+                    // Initiative already restored above
                     $originalInitiative = $this->actors[$actorId]->getInitiative();
-                    $state->setCurrentInitiative($originalInitiative);
                     $passes = $this->turnOrder->calculatePasses($originalInitiative);
                     $state->setPassesRemaining($passes);
                 }
