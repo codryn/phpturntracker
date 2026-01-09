@@ -574,6 +574,25 @@ class Encounter
     }
 
     /**
+     * Reset the encounter to initial constructed state.
+     *
+     * Removes all actors and clears all internal state. After reset,
+     * the encounter is inactive and ready to add new actors and start fresh.
+     */
+    public function reset(): void
+    {
+        // Clear all actors and states
+        $this->actors = [];
+        $this->actorStates = [];
+
+        // Reset encounter state to inactive
+        $this->state = new EncounterState();
+
+        // Recreate turn order strategy to clear any internal state
+        $this->turnOrder = $this->createTurnOrderStrategy();
+    }
+
+    /**
      * Get actors who have acted this round.
      *
      * @return Actor[]
