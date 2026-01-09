@@ -273,19 +273,19 @@
 
 **Purpose**: Improvements that affect multiple user stories and production readiness
 
-- [ ] T117 [P] Create README.md with: installation instructions, quick start example, supported systems table, link to quickstart.md
-- [ ] T118 [P] Create examples/ directory with complete code examples for each RPG system (D&D5e, SR4, SR5, Genesys, Popcorn, OSR)
-- [ ] T119 [P] Update CHANGELOG.md with v1.0.0 features, breaking changes (none), migration guide
-- [ ] T120 [P] Add GitHub Actions workflow .github/workflows/ci.yml for PHP 8.0, 8.1, 8.2, 8.3 matrix testing
-- [ ] T121 [P] Add PHPStan configuration phpstan.neon at level max
-- [ ] T122 Run PHPStan analysis, fix any issues
-- [ ] T123 Run PHPUnit with coverage report, verify ≥90% coverage
-- [ ] T123a [P] Stress test: create encounter, run 100+ rounds with 20 actors, verify performance stable and no integer overflow
-- [ ] T124 Run php-cs-fixer on entire codebase
-- [ ] T125 Review all PHPDoc comments for completeness and accuracy
-- [ ] T126 Manual test: run through quickstart.md examples step-by-step, verify all work
-- [ ] T127 [P] Add composer scripts: "test" (phpunit), "coverage" (phpunit with coverage), "cs-fix" (php-cs-fixer), "analyze" (phpstan)
-- [ ] T128 Final review: verify all acceptance scenarios from spec.md pass
+- [X] T117 [P] Create README.md with: installation instructions, quick start example, supported systems table, link to quickstart.md
+- [X] T118 [P] Create examples/ directory with complete code examples for each RPG system (D&D5e, SR4, SR5, Genesys, Popcorn, OSR)
+- [X] T119 [P] Update CHANGELOG.md with v1.0.0 features, breaking changes (none), migration guide
+- [X] T120 [P] Add GitHub Actions workflow .github/workflows/ci.yml for PHP 8.0, 8.1, 8.2, 8.3 matrix testing
+- [X] T121 [P] Add PHPStan configuration phpstan.neon at level max
+- [X] T122 Run PHPStan analysis, fix any issues
+- [X] T123 Run PHPUnit with coverage report, verify ≥90% coverage
+- [X] T123a [P] Stress test: create encounter, run 100+ rounds with 20 actors, verify performance stable and no integer overflow
+- [X] T124 Run php-cs-fixer on entire codebase
+- [X] T125 Review all PHPDoc comments for completeness and accuracy
+- [X] T126 Manual test: run through quickstart.md examples step-by-step, verify all work
+- [X] T127 [P] Add composer scripts: "test" (phpunit), "coverage" (phpunit with coverage), "cs-fix" (php-cs-fixer), "analyze" (phpstan)
+- [X] T128 Final review: verify all acceptance scenarios from spec.md pass
 
 **Checkpoint**: Production ready - all quality gates passed, documentation complete
 

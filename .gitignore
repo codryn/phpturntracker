@@ -8,6 +8,9 @@ composer.lock
 coverage/
 build/
 
+# PHP CS Fixer
+.php-cs-fixer.cache
+
 # IDE
 .idea/
 *.swp

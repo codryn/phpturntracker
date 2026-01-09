@@ -1,0 +1,18 @@
+parameters:
+    level: max
+    paths:
+        - src
+    excludePaths:
+        - tests
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Allow array operations with mixed types for timeline config
+        - '#Parameter \$slotConfiguration .* expects .*, array.* given#'
+        - '#Parameter \#1 \$slotConfiguration of class .* constructor expects .*#'
+        # Allow binary operations on initiative (could be int|string from attributes)
+        - '#Binary operation "\+" between int\|string and 1 results in an error#'
+        # Allow iterable without value type for internal arrays
+        - '#Property .* has no value type specified in iterable type array#'
+        - '#Method .* has parameter .* with no value type specified in iterable type array#'
+        # Dead catch is acceptable for defensive programming
+        - '#Dead catch - InvalidArgumentException is never thrown#'

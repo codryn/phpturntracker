@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Codryn\PhpTurnTracker;
 
+use Codryn\PhpTurnTracker\Exceptions\ActorAlreadyActedException;
 use Codryn\PhpTurnTracker\Exceptions\ActorNotFoundException;
 use Codryn\PhpTurnTracker\Exceptions\DuplicateActorException;
 use Codryn\PhpTurnTracker\Exceptions\EncounterAlreadyActiveException;
 use Codryn\PhpTurnTracker\Exceptions\EncounterNotActiveException;
+use Codryn\PhpTurnTracker\Exceptions\InvalidDelayException;
 use Codryn\PhpTurnTracker\Exceptions\NoActorsException;
 use Codryn\PhpTurnTracker\State\ActorState;
 use Codryn\PhpTurnTracker\State\EncounterState;
