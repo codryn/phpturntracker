@@ -15,6 +15,108 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] - 2026-01-09
+
+**Alpha Release** - Enhanced turn management with delay mechanics and encounter control.
+
+### Added
+
+#### New Turn Management Features
+- **`delayActor()`**: Temporarily delay an actor's turn to a lower initiative for the current round only
+  - Actor maintains "unacted" status when delayed
+  - Initiative automatically restores to original value in next round
+  - Useful for "Ready Action" mechanics and tactical positioning
+  - Validates that new initiative is lower than current
+
+- **`rewindTurn()`**: Undo the last turn advancement
+  - Restores previous actor as current
+  - Unmarks previous actor's "acted" status
+  - Automatically undoes temporary delays and restores original initiative
+  - Useful for correcting mistakes or implementing "take-back" mechanics
+  - Throws exception if no previous turn exists
+
+#### Enhanced Encounter Control
+- **`restart()`**: Restart encounter from round 1 with same actors
+  - Preserves all actors and their current initiatives
+  - Resets all acted/unacted states
+  - Clears temporary delays from previous rounds
+  - Encounter remains active (no need to call `start()` again)
+  - Useful for practice rounds or replay scenarios
+
+- **`reset()`**: Complete encounter reset to initial state
+  - Removes all actors
+  - Clears all internal state
+  - Sets encounter to inactive
+  - Returns encounter to "as-constructed" state
+  - Allows starting fresh with new actors
+
+### Changed
+
+#### Internal Improvements
+- **Turn Order Strategy Interface**: Added `actorStates` parameter to `changeInitiative()` method
+  - Enables turn order strategies to use temporary initiative values from actor states
+  - Required for proper delay functionality
+  - All turn order implementations updated accordingly
+
+- **Actor State Tracking**: Enhanced state management for temporary vs permanent initiative changes
+  - `ActorState` now properly tracks `currentInitiative` separately from base initiative
+  - `delayActor()` modifies current initiative only (temporary)
+  - `changeInitiative()` modifies base initiative (permanent)
+  - Round advancement automatically restores original initiatives
+
+- **Previous Actor Tracking**: Added `previousActorId` to `EncounterState`
+  - Enables `rewindTurn()` functionality
+  - Automatically tracked during `advanceTurn()` and `delayActor()`
+  - Cleared after successful rewind
+
+### Quality Improvements
+- **Test Coverage**: Increased from 87% to 88.30% line coverage
+  - Added 12 new integration tests for encounter management
+  - Total: 179 tests with 503 assertions (up from 167 tests, 450 assertions)
+  - New test file: `EncounterManagementTest.php`
+  - Comprehensive coverage of reset, restart, and rewindTurn functionality
+
+- **Static Analysis**: PHPStan level MAX with zero errors
+  - Fixed null coalescing operator warnings
+  - All code passes strict type checking
+
+### Technical Details
+- **PHP Version**: 8.1+ with strict types
+- **Dependencies**: Zero (production), PHPUnit 10 (dev)
+- **Performance**: Maintains 167,000+ turns/second
+- **API Changes**: Interface change is backward compatible with new optional parameter
+
+### Migration Notes
+
+#### For Users of v0.1.0
+
+**API Changes (Non-Breaking)**:
+- If you've implemented custom turn order strategies, you'll need to add the `actorStates` parameter to your `changeInitiative()` implementation
+- Existing encounters will continue to work without modification
+- New methods are additions and don't affect existing functionality
+
+**Example Update for Custom Strategies**:
+```php
+// Old signature
+public function changeInitiative(
+    string $actorId,
+    int $newInitiative,
+    array $actors,
+    EncounterState $encounterState
+): void
+
+// New signature
+public function changeInitiative(
+    string $actorId,
+    int $newInitiative,
+    array $actors,
+    array $actorStates,  // New parameter
+    EncounterState $encounterState
+): void
+```
+
+---
+
 ## [0.1.0] - 2026-01-09
 
 **Alpha Release** - Not recommended for production use. This is an early preview release for testing and feedback.
@@ -130,9 +232,12 @@ This is an alpha release for early adopters and testing. Please report issues, s
 
 ## Version History
 
+### [0.2.0] - 2026-01-09
+Enhanced turn management with delay mechanics, rewind functionality, and encounter control (restart/reset).
+
 ### [0.1.0] - 2026-01-09
 Alpha release with complete feature set for 6 major RPG turn order systems. Not recommended for production.
 
-[Unreleased]: https://github.com/codryn/phpturntracker/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.1.0...HEAD
-[1.0.0]: https://github.com/codryn/phpturntracker/releases/tag/v1.0.0
+[Unreleased]: https://github.com/codryn/phpturntracker/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.2.0
+[0.1.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.1.0
