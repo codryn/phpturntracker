@@ -43,7 +43,12 @@
         "coverage": "phpunit --coverage-html coverage",
         "cs-fix": "php-cs-fixer fix",
         "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "analyze": "phpstan analyse"
+        "analyze": "phpstan analyse",
+        "ci": [
+            "@coverage",
+            "@cs-check",
+            "@analyze"
+        ]
     },
     "config": {
         "sort-packages": true,

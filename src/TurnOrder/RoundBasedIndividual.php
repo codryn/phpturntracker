@@ -159,15 +159,11 @@ class RoundBasedIndividual implements TurnOrderInterface
         string $actorId,
         int $newInitiative,
         array $actors,
+        array $actorStates,
         EncounterState $encounterState
     ): void {
-        // Remove and re-add actor to maintain correct order
-        $this->removeActor($actorId, $encounterState);
-
-        // Recalculate turn order with updated initiative
-        if (isset($actors[$actorId])) {
-            $this->calculateInitialOrder($actors);
-        }
+        // Recalculate turn order using current initiatives from actorStates
+        $this->recalculateTurnOrderWithStates($actors, $actorStates);
     }
 
     /**
@@ -201,5 +197,28 @@ class RoundBasedIndividual implements TurnOrderInterface
     {
         // Not applicable for round-based individual systems
         return false;
+    }
+
+    /**
+     * Recalculate turn order using current initiative from actor states.
+     *
+     * @param Actor[] $actors
+     * @param ActorState[] $actorStates
+     */
+    private function recalculateTurnOrderWithStates(array $actors, array $actorStates): void
+    {
+        $sortedActors = $actors;
+
+        usort($sortedActors, function (Actor $a, Actor $b) use ($actorStates): int {
+            // Use currentInitiative from state if available, otherwise use base initiative
+            $aInit = $actorStates[$a->getId()]->getCurrentInitiative();
+            $bInit = $actorStates[$b->getId()]->getCurrentInitiative();
+
+            // Primary sort: initiative descending
+            return $bInit <=> $aInit;
+        });
+
+        // Extract and store actor IDs in turn order
+        $this->turnOrder = array_map(fn (Actor $actor) => $actor->getId(), $sortedActors);
     }
 }

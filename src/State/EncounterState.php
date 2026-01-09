@@ -16,6 +16,7 @@ class EncounterState
     private int $currentRound = 0;
     private ?int $currentPass = null;
     private ?string $currentActorId = null;
+    private ?string $previousActorId = null;
 
     /**
      * Check if encounter is active.
@@ -97,5 +98,21 @@ class EncounterState
     public function setCurrentActorId(?string $actorId): void
     {
         $this->currentActorId = $actorId;
+    }
+
+    /**
+     * Get ID of previous actor.
+     */
+    public function getPreviousActorId(): ?string
+    {
+        return $this->previousActorId;
+    }
+
+    /**
+     * Set ID of previous actor.
+     */
+    public function setPreviousActorId(?string $actorId): void
+    {
+        $this->previousActorId = $actorId;
     }
 }

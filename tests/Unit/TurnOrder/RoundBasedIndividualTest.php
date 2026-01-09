@@ -174,7 +174,13 @@ class RoundBasedIndividualTest extends TestCase
             $actors
         );
 
-        $strategy->changeInitiative('actor1', 25, $actorsKeyed, $encounterState);
+        $actorStates = [];
+        foreach ($actorsKeyed as $id => $actor) {
+            $actorStates[$id] = new ActorState($id, hasActed: false, currentInitiative: $actor->getInitiative());
+        }
+        $actorStates['actor1']->setCurrentInitiative(25);
+
+        $strategy->changeInitiative('actor1', 25, $actorsKeyed, $actorStates, $encounterState);
 
         // Verify new order
         $encounterState->setCurrentActorId(null);
@@ -243,7 +249,11 @@ class RoundBasedIndividualTest extends TestCase
 
         // ACT: Change actor3's initiative to 25 (becomes first)
         $actors['actor3'] = ActorFactory::create('actor3', 'Actor 3', 25);
-        $strategy->changeInitiative('actor3', 25, $actors, $encounterState);
+        $actorStates = [];
+        foreach ($actors as $id => $actor) {
+            $actorStates[$id] = new ActorState($id, hasActed: false, currentInitiative: $actor->getInitiative());
+        }
+        $strategy->changeInitiative('actor3', 25, $actors, $actorStates, $encounterState);
 
         // ASSERT: Get new order by calling calculateInitialOrder (changeInitiative should have done this)
         $newOrder = $strategy->calculateInitialOrder($actors);
@@ -268,7 +278,11 @@ class RoundBasedIndividualTest extends TestCase
 
         // ACT: Decrease actor1's initiative to 5 (becomes last)
         $actors['actor1'] = ActorFactory::create('actor1', 'Actor 1', 5);
-        $strategy->changeInitiative('actor1', 5, $actors, $encounterState);
+        $actorStates = [];
+        foreach ($actors as $id => $actor) {
+            $actorStates[$id] = new ActorState($id, hasActed: false, currentInitiative: $actor->getInitiative());
+        }
+        $strategy->changeInitiative('actor1', 5, $actors, $actorStates, $encounterState);
 
         // ASSERT: New order should be actor2, actor3, actor1
         $newOrder = $strategy->calculateInitialOrder($actors);
@@ -293,7 +307,11 @@ class RoundBasedIndividualTest extends TestCase
 
         // ACT: Change actor3's initiative to match actor2 (both at 15)
         $actors['actor3'] = ActorFactory::create('actor3', 'Actor 3', 15);
-        $strategy->changeInitiative('actor3', 15, $actors, $encounterState);
+        $actorStates = [];
+        foreach ($actors as $id => $actor) {
+            $actorStates[$id] = new ActorState($id, hasActed: false, currentInitiative: $actor->getInitiative());
+        }
+        $strategy->changeInitiative('actor3', 15, $actors, $actorStates, $encounterState);
 
         // ASSERT: actor2 and actor3 should maintain stable order
         $newOrder = $strategy->calculateInitialOrder($actors);
