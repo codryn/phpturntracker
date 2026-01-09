@@ -7,11 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned for v1.0.0
+- Production-ready release
+- Additional documentation and examples
+- Performance optimizations
+- Extended test coverage to 90%+
+
 ---
 
-## [1.0.0] - 2026-01-09
+## [0.1.0] - 2026-01-09
 
-Initial release of PHP Turn Tracker - a flexible turn order tracking library for tabletop RPG combat systems.
+**Alpha Release** - Not recommended for production use. This is an early preview release for testing and feedback.
+
+Initial alpha release of PHP Turn Tracker - a flexible turn order tracking library for tabletop RPG combat systems.
 
 ### Added
 
@@ -40,11 +48,11 @@ Initial release of PHP Turn Tracker - a flexible turn order tracking library for
   - Current round and pass tracking
   - Acted/unacted actor lists per round/pass
   - Encounter active/inactive status
-  - Current actor determination
-
-#### Configuration
-- **Timeline Profiles**: Configurable turn order rules per RPG system
-- **Validation**: Built-in validation for profiles and initiative values
+  PHPUnit test suite with 87% coverage (167 tests, 450 assertions)
+- Integration tests for all 6 user stories
+- Unit tests for all strategies and components
+- PSR-12 code style compliance (enforced via php-cs-fixer)
+- PHPStan level MAX static analysis
 - **Flexible Attributes**: Custom actor attributes for tie-breaking and side tracking
 
 #### Quality Assurance
@@ -74,11 +82,11 @@ Initial release of PHP Turn Tracker - a flexible turn order tracking library for
 - Zero external dependencies (production)
 
 ### Technical Details
-
-- **Language**: PHP 8.1+ with constructor promotion, named arguments, strict types
+0+ with constructor promotion, named arguments, strict types
 - **Architecture**: Strategy pattern for turn order implementations
-- **Performance**: Handles 20+ actors, 100+ rounds without performance degradation
+- **Performance**: 167,000+ turns/second, handles 20+ actors through 100+ rounds
 - **Dependencies**: None (zero-dependency design for maximum portability)
+- **Package**: `codryn/phpturntracker`or maximum portability)
 - **Package**: `codryn/phpturntracker` (Packagist)
 - **License**: MIT
 
@@ -94,30 +102,37 @@ Initial release of PHP Turn Tracker - a flexible turn order tracking library for
 | Marvel Heroic | All | Popcorn | Narrative designation |
 | B/X D&D | All | Side-based | Party vs monsters |
 | OSR Systems | Various | Side-based | Team initiative |
+Known Issues & Limitations
 
-### Migration Guide
+⚠️ **Alpha Release Warnings**:
+- Not production-ready - API may change before v1.0.0
+- Test coverage at 87% (target: 90%+ for v1.0.0)
+- Documentation is complete but examples may need refinement
+- Performance tested but not yet battle-tested in production environments
 
-This is the initial release. No migration needed.
-
-### Breaking Changes
-
-None (initial release).
-
-### Known Limitations
-
+**Technical Limitations**:
 - Timeline profiles are immutable after encounter creation
 - No built-in persistence layer (consumers handle serialization)
 - Single-threaded design (PHP default, no thread-safety needed)
 - No GUI components (library only)
 
+### Migration Guide
+
+This is the initial alpha release. No migration needed.
+
+### Feedback Welcome
+
+This is an alpha release for early adopters and testing. Please report issues, suggestions, and use cases:
+- GitHub Issues: [Report bugs or request features]
+- Feedback on API design welcome before v1.0.0 stabilization
+
 ---
 
 ## Version History
 
-### [1.0.0] - 2026-01-09
-Initial release with complete feature set for 6 major RPG turn order systems.
+### [0.1.0] - 2026-01-09
+Alpha release with complete feature set for 6 major RPG turn order systems. Not recommended for production.
 
-Initial release of PHP Turn Tracker library supporting all major RPG combat systems.
-
-[Unreleased]: https://github.com/codryn/phpturntracker/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/codryn/phpturntracker/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.1.0...HEAD
 [1.0.0]: https://github.com/codryn/phpturntracker/releases/tag/v1.0.0
