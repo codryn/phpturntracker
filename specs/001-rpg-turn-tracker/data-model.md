@@ -103,7 +103,7 @@ class TimelineProfile
 
 ### TurnOrderType
 
-Enumeration-style class for turn order models (PHP 8.0 compatible, no enums).
+Enumeration-style class for turn order models (PHP 8.1 compatible, no enums).
 
 **Constants**:
 ```php

@@ -2,7 +2,7 @@
 
 **Version**: 1.0.0  
 **Package**: `codryn/phpturntracker`  
-**PHP**: 8.0+
+**PHP**: 8.1+
 
 ## Installation
 

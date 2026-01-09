@@ -19,7 +19,7 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [X] T001 Create composer.json with package metadata: name=codryn/phpturntracker, PHP ^8.0 requirement, PSR-4 autoloading (Codryn\\PhpTurnTracker), PHPUnit dev dependency
+- [X] T001 Create composer.json with package metadata: name=codryn/phpturntracker, PHP ^8.1 requirement, PSR-4 autoloading (Codryn\\PhpTurnTracker), PHPUnit dev dependency
 - [X] T002 Create phpunit.xml with test suite configuration, 90% coverage requirement, bootstrap, strict mode
 - [X] T003 Create .php-cs-fixer.php with PSR-12 rules configuration
 - [X] T004 [P] Create .gitignore with vendor/, .phpunit.cache/, coverage/, .php-cs-fixer.cache
@@ -276,7 +276,7 @@
 - [X] T117 [P] Create README.md with: installation instructions, quick start example, supported systems table, link to quickstart.md
 - [X] T118 [P] Create examples/ directory with complete code examples for each RPG system (D&D5e, SR4, SR5, Genesys, Popcorn, OSR)
 - [X] T119 [P] Update CHANGELOG.md with v1.0.0 features, breaking changes (none), migration guide
-- [X] T120 [P] Add GitHub Actions workflow .github/workflows/ci.yml for PHP 8.0, 8.1, 8.2, 8.3 matrix testing
+- [X] T120 [P] Add GitHub Actions workflow .github/workflows/ci.yml for PHP 8.1, 8.2, 8.3 matrix testing
 - [X] T121 [P] Add PHPStan configuration phpstan.neon at level max
 - [X] T122 Run PHPStan analysis, fix any issues
 - [X] T123 Run PHPUnit with coverage report, verify ≥90% coverage
@@ -436,7 +436,7 @@ With 3 developers after Foundational (T027) completes:
 
 - [ ] PHPUnit coverage ≥90% across entire codebase ✅
 - [ ] PHPStan level max passes with no errors ✅
-- [ ] CI pipeline passes on PHP 8.0, 8.1, 8.2, 8.3 ✅
+- [ ] CI pipeline passes on PHP 8.1, 8.2, 8.3 ✅
 - [ ] All 6 user stories work independently ✅
 - [ ] All edge cases from spec.md handled ✅
 - [ ] README.md complete with examples ✅
@@ -463,6 +463,6 @@ With 3 developers after Foundational (T027) completes:
 
 **Full Feature Set (US1-US6)**: Supports all major RPG systems (D&D, Pathfinder, Shadowrun, GURPS, Savage Worlds, Feng Shui, Genesys, Marvel Heroic, OSR)
 
-**Quality**: 90%+ test coverage, PSR-12 compliant, PHP 8.0-8.3 compatible, zero dependencies, production-ready documentation
+**Quality**: 90%+ test coverage, PSR-12 compliant, PHP 8.1-8.3 compatible, zero dependencies, production-ready documentation
 
 **Timeline**: 8-12 days for MVP, 12-17 days for full v1.0.0 (sequential), 6-10 days (parallel with 3 devs)

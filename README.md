@@ -1,6 +1,6 @@
 # PHP Turn Tracker
 
-[![PHP Version](https://img.shields.io/badge/PHP-8.0%2B-blue.svg)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > Flexible turn order tracking library for tabletop RPG combat systems
@@ -10,7 +10,7 @@
 ## Features
 
 - **🎲 Universal RPG Support**: D&D all editions, Pathfinder, Shadowrun, GURPS, Savage Worlds, Genesys, Marvel Heroic, OSR, and more
-- **⚡ Zero Dependencies**: Pure PHP 8.0+ implementation using only stdlib
+- **⚡ Zero Dependencies**: Pure PHP 8.1+ implementation using only stdlib
 - **🔄 Multiple Turn Order Models**: Round-based individual/side, pass-based with decay, slot-based, popcorn initiative
 - **📊 State Tracking**: Automatic tracking of acted/unacted actors per round/pass
 - **🎯 Dynamic Management**: Add reinforcements, remove defeated actors, change initiative mid-combat
@@ -23,7 +23,7 @@
 composer require codryn/phpturntracker
 ```
 
-**Requirements**: PHP 8.0 or higher
+**Requirements**: PHP 8.1 or higher
 
 ## Quick Start
 
@@ -213,7 +213,7 @@ composer cs-fix
 
 ## Requirements
 
-- PHP 8.0 or higher
+- PHP 8.1 or higher
 - No external dependencies (production)
 - PHPUnit 10+ (development)
 - php-cs-fixer 3+ (development)

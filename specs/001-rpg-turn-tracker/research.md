@@ -30,15 +30,13 @@
 
 ---
 
-### 2. PHP 8.0+ Compatibility Strategy
+### 2. PHP 8.1+ Compatibility Strategy
 
-**Decision**: Develop on PHP 8.3, test against PHP 8.0, 8.1, 8.2, 8.3 in CI
+**Decision**: Develop on PHP 8.3, test against PHP 8.1, 8.2, 8.3 in CI
 
 **Rationale**:
-- PHP 8.0 introduced union types, named arguments, constructor property promotion - modern features that improve code quality
-- PHP 8.0 EOL was November 2023, but many enterprise environments still use it
 - Target compatibility window balances modern features vs market reach
-- Avoid PHP 8.1+ features: enums (8.1), readonly properties (8.1), DNF types (8.2)
+- Avoid PHP 8.2+ features: DNF types (8.2)
 
 **Compatibility constraints**:
 - ❌ No enums (use constants or class-based enumerations)
@@ -48,8 +46,8 @@
 - ✅ Can use attributes (but not required for core functionality)
 
 **Testing approach**: 
-- GitHub Actions matrix testing: PHP 8.0, 8.1, 8.2, 8.3
-- Composer require: `"php": "^8.0"`
+- GitHub Actions matrix testing: PHP, 8.1, 8.2, 8.3
+- Composer require: `"php": "^8.1"`
 - Development environment: PHP 8.3
 
 ---
@@ -237,7 +235,7 @@ if (count($unactedActors) === 0) {
 **Decision**: No external dependencies, stdlib only
 
 **Rationale**:
-- Maximum portability - works in any PHP 8.0+ environment
+- Maximum portability - works in any PHP 8.1+ environment
 - No version conflict risks with consumer applications
 - Smaller install footprint
 - Faster composer install
@@ -294,7 +292,7 @@ tests/Fixtures/
 | Question | Decision | Impact |
 |----------|----------|--------|
 | Tick-based systems | Deferred to V2 | Reduces scope, focuses on 5 core models |
-| PHP compatibility | 8.0+ (test on 8.0-8.3) | Modern features, broad compatibility |
+| PHP compatibility | 8.1+ (test on 8.1-8.3) | Modern features, broad compatibility |
 | Initiative changes | Preserve acted status | Fairness, prevents double-turns |
 | Pass decay | Configurable amount (default 10) | Supports SR4, SR5, SR6, custom systems |
 | Tie-breaking | Stable insertion order default | Simple, predictable, extensible |

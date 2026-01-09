@@ -52,7 +52,7 @@ Initial release of PHP Turn Tracker - a flexible turn order tracking library for
 - Integration tests for all 6 user stories
 - Unit tests for all strategies and components
 - PSR-12 code style compliance (enforced via php-cs-fixer)
-- PHP 8.0+ type safety with strict types
+- PHP 8.1+ type safety with strict types
 
 #### Documentation
 - Complete README with installation and usage examples
@@ -75,7 +75,7 @@ Initial release of PHP Turn Tracker - a flexible turn order tracking library for
 
 ### Technical Details
 
-- **Language**: PHP 8.0+ with constructor promotion, named arguments, strict types
+- **Language**: PHP 8.1+ with constructor promotion, named arguments, strict types
 - **Architecture**: Strategy pattern for turn order implementations
 - **Performance**: Handles 20+ actors, 100+ rounds without performance degradation
 - **Dependencies**: None (zero-dependency design for maximum portability)

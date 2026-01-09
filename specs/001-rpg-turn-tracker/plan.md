@@ -7,11 +7,11 @@
 
 ## Summary
 
-A PHP 8.0+ Composer library (`codryn/phpturntracker`) that provides flexible turn order tracking for tabletop RPG combat systems. The library accepts configurable timeline profiles to support multiple turn order models (round-based individual/side initiative, pass-based with decay, slot-based, and popcorn initiative), tracks actor state (acted/unacted), handles dynamic actor management (add/remove mid-encounter), and maintains accurate turn progression through initiative changes and delays. Development follows strict TDD with PHPUnit, PSR-12 compliance, and comprehensive documentation.
+A PHP 8.1+ Composer library (`codryn/phpturntracker`) that provides flexible turn order tracking for tabletop RPG combat systems. The library accepts configurable timeline profiles to support multiple turn order models (round-based individual/side initiative, pass-based with decay, slot-based, and popcorn initiative), tracks actor state (acted/unacted), handles dynamic actor management (add/remove mid-encounter), and maintains accurate turn progression through initiative changes and delays. Development follows strict TDD with PHPUnit, PSR-12 compliance, and comprehensive documentation.
 
 ## Technical Context
 
-**Language/Version**: PHP 8.3 (development), PHP 8.0+ (compatibility requirement)  
+**Language/Version**: PHP 8.3 (development), PHP 8.1+ (compatibility requirement)  
 **Primary Dependencies**: None (zero-dependency design for maximum portability)  
 **Storage**: N/A (in-memory state management, consumers handle persistence if needed)  
 **Testing**: PHPUnit 10+ with 90% minimum coverage requirement  
@@ -157,7 +157,7 @@ All constitutional requirements are satisfied without exceptions. The library de
 **Deliverables**:
 - ✅ `research.md` - Comprehensive research document covering:
   - Turn order model classification (5 strategies, tick-based deferred)
-  - PHP 8.0+ compatibility strategy and constraints
+  - PHP 8.1+ compatibility strategy and constraints
   - Initiative change & delay mechanics
   - Pass-based initiative decay configuration
   - Tie-breaking strategy (default + custom)
@@ -169,7 +169,7 @@ All constitutional requirements are satisfied without exceptions. The library de
 
 **Key Decisions Made**:
 1. Implement 5 turn order strategies via Strategy pattern
-2. Develop on PHP 8.3, maintain 8.0+ compatibility
+2. Develop on PHP 8.3, maintain 8.1+ compatibility
 3. Preserve acted/unacted status during initiative changes
 4. Configurable decay amount for pass-based systems
 5. Default tie-breaker: stable insertion order
@@ -212,7 +212,7 @@ All constitutional requirements are satisfied without exceptions. The library de
   - Integration patterns (web, database, logging)
 
 - ✅ Agent context updated:
-  - GitHub Copilot instructions updated with PHP 8.0-8.3, zero-dependency, library pattern
+  - GitHub Copilot instructions updated with PHP 8.1-8.3, zero-dependency, library pattern
 
 **Design Quality**: 
 - Clear separation of concerns (entities vs state)
@@ -294,7 +294,7 @@ All checkboxes from initial constitution check remain valid:
 - [ ] CHANGELOG.md for v1.0.0
 - [ ] GitHub repository created
 - [ ] Packagist.org registration
-- [ ] GitHub Actions CI for PHP 8.0, 8.1, 8.2, 8.3
+- [ ] GitHub Actions CI for PHP 8.1, 8.2, 8.3
 - [ ] PHPStan/Psalm static analysis passing
 - [ ] PHPUnit coverage ≥90%
 - [ ] PSR-12 compliance verified
