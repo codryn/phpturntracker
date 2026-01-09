@@ -496,8 +496,6 @@ class Encounter
         // (will happen when designateNext is called again or advanceTurn is called)
     }
 
-
-
     /**
      * Get the current round number.
      */
@@ -512,6 +510,67 @@ class Encounter
     public function isActive(): bool
     {
         return $this->state->isActive();
+    }
+
+    /**
+     * Restart the encounter from round 1.
+     *
+     * Keeps all actors and the profile, but resets to initial state as if
+     * start() was called again. All actor states are reset.
+     *
+     * @throws NoActorsException If no actors in encounter
+     */
+    public function restart(): void
+    {
+        if (empty($this->actors)) {
+            throw new NoActorsException('Cannot restart encounter with no actors');
+        }
+
+        // Reset encounter state
+        $this->state = new EncounterState();
+        $this->state->setActive(true);
+        $this->state->setCurrentRound(1);
+
+        // Reset all actor states to initial values
+        foreach ($this->actorStates as $actorId => $state) {
+            $originalInitiative = $this->actors[$actorId]->getInitiative();
+            
+            // Calculate passes for pass-based systems
+            $passesRemaining = 0;
+            if ($this->profile->getType() === TurnOrderType::PASS && $this->turnOrder instanceof TurnOrder\PassBased) {
+                $passesRemaining = $this->turnOrder->calculatePasses($originalInitiative);
+            }
+
+            $this->actorStates[$actorId] = new ActorState(
+                $actorId,
+                hasActed: false,
+                passesRemaining: $passesRemaining,
+                currentInitiative: $originalInitiative,
+                addedInRound: null
+            );
+        }
+
+        // Initialize pass for pass-based systems
+        if ($this->profile->getType() === TurnOrderType::PASS) {
+            $this->state->setCurrentPass(1);
+        }
+
+        // Reset turn order strategy
+        if ($this->profile->getType() === TurnOrderType::ROUND_SIDE &&
+            $this->turnOrder instanceof TurnOrder\RoundBasedSide) {
+            $this->turnOrder->resetForNewRound();
+        } elseif ($this->profile->getType() === TurnOrderType::SLOT &&
+            $this->turnOrder instanceof TurnOrder\SlotBased) {
+            $this->turnOrder->resetRound();
+        }
+
+        // Calculate initial turn order
+        $turnOrder = $this->turnOrder->calculateInitialOrder($this->actors);
+
+        // Set first actor as current
+        if (!empty($turnOrder)) {
+            $this->state->setCurrentActorId($turnOrder[0]);
+        }
     }
 
     /**
