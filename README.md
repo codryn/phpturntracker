@@ -189,6 +189,43 @@ if ($encounter->isActive()) {
 }
 ```
 
+## State Save and Restore
+
+Save and restore complete encounter state for persistence, UI synchronization, or undo/rewind features:
+
+```php
+use Codryn\PhpTurnTracker\State\EncounterSnapshot;
+
+// Capture current state
+$snapshot = $encounter->getState();
+
+// Serialize to JSON for storage
+$json = $snapshot->toJson();
+file_put_contents('encounter_state.json', $json);
+
+// Later: Load and restore state
+$json = file_get_contents('encounter_state.json');
+$snapshot = EncounterSnapshot::fromJsonString($json);
+
+$newEncounter = new Encounter(new TimelineProfile(TurnOrderType::ROUND_INDIVIDUAL));
+$newEncounter->restoreState($snapshot);
+
+// Continue from exact same state
+$encounter->advanceTurn();
+```
+
+The state snapshot includes:
+- **Timeline configuration** (profile, turn order type, all settings)
+- **All actors** (IDs, names, initiatives, attributes)
+- **Actor states** (acted/unacted, passes remaining, temporary initiative changes)
+- **Encounter state** (active status, current round/pass, current actor)
+
+Use cases:
+- **Persistence**: Save state between sessions
+- **UI Synchronization**: Ensure UI always reflects exact game state
+- **Rewind/Undo**: Implement advanced undo features using state snapshots
+- **State Transfer**: Move encounters between different systems or implementations
+
 ## Documentation
 
 - **[Quick Start Guide](specs/001-rpg-turn-tracker/quickstart.md)** - Complete tutorial with examples
