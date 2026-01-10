@@ -122,8 +122,7 @@ class StateManagementTest extends TestCase
         $encounter1->addActor(new Actor('actor1', 'Fighter', 18));
         $encounter1->addActor(new Actor('actor2', 'Wizard', 15));
         $encounter1->start();
-        $encounter1->advanceTurn();
-        $encounter1->advanceTurn();
+        $encounter1->advanceTurn(); // actor2's turn
         $encounter1->advanceTurn(); // Round 2, actor1's turn
 
         $snapshot = $encounter1->getState();
@@ -164,8 +163,8 @@ class StateManagementTest extends TestCase
         // Verify snapshot captures pass state
         $this->assertSame(2, $snapshot->getEncounterState()->getCurrentPass());
 
-        // Restore in new encounter
-        $encounter2 = new Encounter(new TimelineProfile(TurnOrderType::PASS));
+        // Restore in new encounter (profile will be replaced by snapshot)
+        $encounter2 = new Encounter(new TimelineProfile(TurnOrderType::ROUND_INDIVIDUAL));
         $encounter2->restoreState($snapshot);
 
         $this->assertSame(2, $encounter2->getCurrentPass());
@@ -285,8 +284,8 @@ class StateManagementTest extends TestCase
 
         $snapshot = $encounter1->getState();
 
-        // Create encounter with PASS profile
-        $profile2 = new TimelineProfile(TurnOrderType::PASS);
+        // Create encounter with ROUND_SIDE profile (will be replaced)
+        $profile2 = new TimelineProfile(TurnOrderType::ROUND_SIDE);
         $encounter2 = new Encounter($profile2);
 
         // Restore ROUND_INDIVIDUAL state

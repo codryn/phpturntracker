@@ -65,7 +65,7 @@ class EncounterSnapshotTest extends TestCase
         $this->assertArrayHasKey('actorStates', $data);
         $this->assertArrayHasKey('encounterState', $data);
 
-        $this->assertSame('ROUND_INDIVIDUAL', $data['profile']['type']);
+        $this->assertSame(TurnOrderType::ROUND_INDIVIDUAL, $data['profile']['type']);
         $this->assertSame(1, $data['profile']['minInitiative']);
         $this->assertSame(30, $data['profile']['maxInitiative']);
 
@@ -115,7 +115,7 @@ class EncounterSnapshotTest extends TestCase
     {
         $data = [
             'profile' => [
-                'type' => 'PASS',
+                'type' => TurnOrderType::PASS,
                 'minInitiative' => 1,
                 'maxInitiative' => 40,
                 'tieBreakerAttribute' => null,
@@ -176,7 +176,7 @@ class EncounterSnapshotTest extends TestCase
     {
         $data = [
             'profile' => [
-                'type' => 'ROUND_INDIVIDUAL',
+                'type' => TurnOrderType::ROUND_INDIVIDUAL,
                 'minInitiative' => 1,
                 'maxInitiative' => 30,
                 'tieBreakerAttribute' => null,
@@ -223,7 +223,7 @@ class EncounterSnapshotTest extends TestCase
         $this->expectExceptionMessage('missing required fields');
 
         EncounterSnapshot::fromJson([
-            'profile' => ['type' => 'ROUND_INDIVIDUAL'],
+            'profile' => ['type' => TurnOrderType::ROUND_INDIVIDUAL],
             'actorStates' => [],
             'encounterState' => [],
         ]);

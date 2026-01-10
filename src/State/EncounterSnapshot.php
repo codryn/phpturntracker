@@ -97,7 +97,7 @@ class EncounterSnapshot implements \JsonSerializable
 
         return [
             'profile' => [
-                'type' => $this->profile->getType()->value,
+                'type' => $this->profile->getType(),
                 'minInitiative' => $this->profile->getMinInitiative(),
                 'maxInitiative' => $this->profile->getMaxInitiative(),
                 'tieBreakerAttribute' => $this->profile->getTieBreakerAttribute(),
@@ -134,8 +134,14 @@ class EncounterSnapshot implements \JsonSerializable
 
         // Reconstruct profile
         $profileData = $data['profile'];
+        
+        // Validate turn order type
+        if (!isset($profileData['type']) || !\Codryn\PhpTurnTracker\TurnOrderType::isValid($profileData['type'])) {
+            throw new \InvalidArgumentException('Invalid turn order type in snapshot data');
+        }
+        
         $profile = new TimelineProfile(
-            type: \Codryn\PhpTurnTracker\TurnOrderType::from($profileData['type']),
+            type: $profileData['type'],
             minInitiative: $profileData['minInitiative'] ?? 1,
             maxInitiative: $profileData['maxInitiative'] ?? 30,
             tieBreakerAttribute: $profileData['tieBreakerAttribute'] ?? null,

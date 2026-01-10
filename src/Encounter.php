@@ -857,11 +857,6 @@ class Encounter
 
         // Recreate turn order strategy for new profile
         $this->turnOrder = $this->createTurnOrderStrategy();
-
-        // If the restored state is active, reinitialize turn order
-        if ($this->state->isActive() && !empty($this->actors)) {
-            $this->turnOrder->calculateInitialOrder($this->actors);
-        }
     }
 
     /**
