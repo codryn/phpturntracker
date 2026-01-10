@@ -134,12 +134,11 @@ class EncounterSnapshot implements \JsonSerializable
 
         // Reconstruct profile
         $profileData = $data['profile'];
-        
+
         // Validate turn order type
         if (!isset($profileData['type']) || !\Codryn\PhpTurnTracker\TurnOrderType::isValid($profileData['type'])) {
             throw new \InvalidArgumentException('Invalid turn order type in snapshot data');
         }
-        
         $profile = new TimelineProfile(
             type: $profileData['type'],
             minInitiative: $profileData['minInitiative'] ?? 1,
