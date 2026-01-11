@@ -806,6 +806,60 @@ class Encounter
     }
 
     /**
+     * Get current encounter state snapshot.
+     *
+     * Returns an immutable snapshot containing all actors, their states,
+     * encounter state, and configuration. Can be serialized to JSON for
+     * persistence or UI synchronization.
+     *
+     * @return State\EncounterSnapshot Complete state snapshot
+     */
+    public function getState(): State\EncounterSnapshot
+    {
+        return new State\EncounterSnapshot(
+            $this->profile,
+            $this->actors,
+            $this->actorStates,
+            $this->state
+        );
+    }
+
+    /**
+     * Restore encounter from a state snapshot.
+     *
+     * Replaces all current state with the provided snapshot. The encounter
+     * must be inactive before restoring. After restoration, the encounter
+     * will be in the exact state captured in the snapshot.
+     *
+     * @param State\EncounterSnapshot $snapshot State to restore
+     * @throws EncounterAlreadyActiveException If encounter is currently active
+     */
+    public function restoreState(State\EncounterSnapshot $snapshot): void
+    {
+        if ($this->state->isActive()) {
+            throw new EncounterAlreadyActiveException(
+                'Cannot restore state: encounter is currently active. Call reset() first.'
+            );
+        }
+
+        // Replace profile
+        $this->profile = $snapshot->getProfile();
+        $this->profile->validate();
+
+        // Replace actors
+        $this->actors = $snapshot->getActors();
+
+        // Replace actor states
+        $this->actorStates = $snapshot->getActorStates();
+
+        // Replace encounter state
+        $this->state = $snapshot->getEncounterState();
+
+        // Recreate turn order strategy for new profile
+        $this->turnOrder = $this->createTurnOrderStrategy();
+    }
+
+    /**
      * Create turn order strategy based on profile type.
      */
     private function createTurnOrderStrategy(): TurnOrderInterface
