@@ -1,13 +1,13 @@
 parameters:
-    level: max
+    level: 10
     paths:
         - src
     excludePaths:
         - tests
-    reportUnmatchedIgnoredErrors: false
+    tmpDir: build/phpstan
+    reportUnmatchedIgnoredErrors: true
     ignoreErrors:
         # Allow array operations with mixed types for timeline config
-        - '#Parameter \$slotConfiguration .* expects .*, array.* given#'
         - '#Parameter \#1 \$slotConfiguration of class .* constructor expects .*#'
         # Allow binary operations on initiative (could be int|string from attributes)
         - '#Binary operation "\+" between int\|string and 1 results in an error#'
