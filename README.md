@@ -22,7 +22,8 @@
 
 ## Requirements
 
-- PHP 8.1 to 8.5
+- PHP 8.1 or higher
+- json extension enabled
 
 ## Installation
 
