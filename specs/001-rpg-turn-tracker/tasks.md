@@ -284,7 +284,7 @@
 - [X] T124 Run php-cs-fixer on entire codebase
 - [X] T125 Review all PHPDoc comments for completeness and accuracy
 - [X] T126 Manual test: run through quickstart.md examples step-by-step, verify all work
-- [X] T127 [P] Add composer scripts: "test" (phpunit), "coverage" (phpunit with coverage), "cs-fix" (php-cs-fixer), "analyze" (phpstan)
+- [X] T127 [P] Add composer scripts: "test" (phpunit), "coverage" (phpunit with coverage), "cs-fix" (php-cs-fixer), "analyse" (phpstan)
 - [X] T128 Final review: verify all acceptance scenarios from spec.md pass
 
 **Checkpoint**: Production ready - all quality gates passed, documentation complete
