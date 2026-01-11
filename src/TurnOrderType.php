@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker;
+namespace Codryn\PHPTurnTracker;
 
 /**
  * Enumeration of supported turn order system types.

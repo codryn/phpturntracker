@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Validators;
+namespace Codryn\PHPTurnTracker\Validators;
 
-use Codryn\PhpTurnTracker\Exceptions\InvalidTimelineProfileException;
-use Codryn\PhpTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\Exceptions\InvalidTimelineProfileException;
+use Codryn\PHPTurnTracker\TimelineProfile;
 
 /**
  * Validates TimelineProfile configuration.

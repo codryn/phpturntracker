@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Integration;
+namespace Codryn\PHPTurnTracker\Tests\Integration;
 
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\Tests\Fixtures\ActorFactory;
-use Codryn\PhpTurnTracker\Tests\Fixtures\TimelineProfiles;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Tests\Fixtures\ActorFactory;
+use Codryn\PHPTurnTracker\Tests\Fixtures\TimelineProfiles;
 use PHPUnit\Framework\TestCase;
 
 /**

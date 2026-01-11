@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 // Create Shadowrun 4e timeline profile
 // - Pass-based system (up to 4 passes per round)

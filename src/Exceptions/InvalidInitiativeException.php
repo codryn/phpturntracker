@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Exceptions;
+namespace Codryn\PHPTurnTracker\Exceptions;
 
 /**
  * Thrown when an initiative value is outside configured bounds.
  */
-class InvalidInitiativeException extends PhpTurnTrackerException
+class InvalidInitiativeException extends PHPTurnTrackerException
 {
 }

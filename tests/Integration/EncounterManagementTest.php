@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Integration;
+namespace Codryn\PHPTurnTracker\Tests\Integration;
 
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\Exceptions\NoActorsException;
-use Codryn\PhpTurnTracker\Tests\Fixtures\ActorFactory;
-use Codryn\PhpTurnTracker\Tests\Fixtures\TimelineProfiles;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Exceptions\NoActorsException;
+use Codryn\PHPTurnTracker\Tests\Fixtures\ActorFactory;
+use Codryn\PHPTurnTracker\Tests\Fixtures\TimelineProfiles;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -339,7 +339,7 @@ class EncounterManagementTest extends TestCase
         $actor = ActorFactory::create('actor1', 'Fighter', 20);
         $encounter->addActor($actor);
 
-        $this->expectException(\Codryn\PhpTurnTracker\Exceptions\EncounterNotActiveException::class);
+        $this->expectException(\Codryn\PHPTurnTracker\Exceptions\EncounterNotActiveException::class);
         $encounter->rewindTurn();
     }
 

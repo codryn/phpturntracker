@@ -32,10 +32,10 @@ composer require codryn/phpturntracker
 ### Basic D&D-Style Combat
 
 ```php
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 // 1. Create a timeline profile for your RPG system
 $profile = new TimelineProfile(
@@ -196,7 +196,7 @@ if ($encounter->isActive()) {
 Save and restore complete encounter state for persistence, UI synchronization, or undo/rewind features:
 
 ```php
-use Codryn\PhpTurnTracker\State\EncounterSnapshot;
+use Codryn\PHPTurnTracker\State\EncounterSnapshot;
 
 // Capture current state
 $snapshot = $encounter->getState();

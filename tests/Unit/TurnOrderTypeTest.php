@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit;
+namespace Codryn\PHPTurnTracker\Tests\Unit;
 
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\TurnOrderType;
 use PHPUnit\Framework\TestCase;
 
 class TurnOrderTypeTest extends TestCase
