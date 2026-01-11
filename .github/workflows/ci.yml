@@ -14,11 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version:
-          - '8.1'
-          - '8.2'
-          - '8.3'
-
+        php-version: ['8.1', '8.2', '8.3']
+  
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -28,7 +25,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         coverage: xdebug
-        extensions: mbstring
+        extensions: mbstring, xml, ctype, json
         tools: composer:v2
 
     - name: Validate composer.json
@@ -54,12 +51,16 @@ jobs:
 
     - name: Generate coverage report (PHP 8.3 only)
       if: matrix.php-version == '8.3'
-      run: composer coverage
+      run: composer test-coverage
 
-    - name: Check PSR-12 code style
-      run: composer cs-check
+    - name: Upload coverage to Codecov
+      if: matrix.php-version == '8.3'
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage/clover.xml
+        fail_ci_if_error: false
 
-  analyze:
+  analyse:
     name: Static Analysis
     runs-on: ubuntu-latest
 
@@ -76,6 +77,9 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
+    - name: Check code style (PSR-12)
+      run: composer cs-check
+
     - name: Run PHPStan
-      run: composer analyze
+      run: composer analyse
       if: always()
