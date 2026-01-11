@@ -17,13 +17,15 @@
 - **🧪 100% Test Coverage**: Comprehensive PHPUnit test suite with 90%+ coverage
 - **📦 PSR-12 Compliant**: Modern PHP coding standards
 
+## Requirements
+
+- PHP 8.1 or higher
+
 ## Installation
 
 ```bash
 composer require codryn/phpturntracker
 ```
-
-**Requirements**: PHP 8.1 or higher
 
 ## Quick Start
 
