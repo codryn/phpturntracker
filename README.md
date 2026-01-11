@@ -1,6 +1,6 @@
 # PHP Turn Tracker
 
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1--8.5-blue.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > Flexible turn order tracking library for tabletop RPG combat systems
@@ -19,7 +19,7 @@
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.1 to 8.5
 
 ## Installation
 
@@ -252,7 +252,7 @@ composer cs-fix
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.1 to 8.5
 - No external dependencies (production)
 - PHPUnit 10+ (development)
 - php-cs-fixer 3+ (development)
