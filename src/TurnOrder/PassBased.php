@@ -80,6 +80,9 @@ class PassBased implements TurnOrderInterface
         if ($currentIndex === false) {
             return $this->getFirstEligibleActor($actorStates, $currentPass);
         }
+        if (!is_int($currentIndex)) {
+            throw new \RuntimeException('Invalid current index type');
+        }
 
         // Get next actor in sequence who is eligible for this pass
         $nextIndex = $currentIndex + 1;
@@ -87,8 +90,11 @@ class PassBased implements TurnOrderInterface
         // Search for next eligible actor
         while ($nextIndex < count($this->turnOrder)) {
             $nextActorId = $this->turnOrder[$nextIndex];
+            if (!is_string($nextActorId)) {
+                throw new \RuntimeException('Invalid actor ID in turn order');
+            }
 
-            if ($this->isEligibleForPass($actorStates[$nextActorId], $currentPass)) {
+            if (isset($actorStates[$nextActorId]) && $this->isEligibleForPass($actorStates[$nextActorId], $currentPass)) {
                 return $nextActorId;
             }
 
@@ -101,16 +107,25 @@ class PassBased implements TurnOrderInterface
 
     /**
      * Get the first actor eligible to act in the current pass.
+     *
+     * @param array<string, ActorState> $actorStates
      */
     private function getFirstEligibleActor(array $actorStates, int $currentPass): ?string
     {
         foreach ($this->turnOrder as $actorId) {
+            if (!is_string($actorId)) {
+                throw new \RuntimeException('Invalid actor ID in turn order');
+            }
             if (isset($actorStates[$actorId]) && $this->isEligibleForPass($actorStates[$actorId], $currentPass)) {
                 return $actorId;
             }
         }
 
-        return $this->turnOrder[0] ?? null;
+        $firstActorId = $this->turnOrder[0] ?? null;
+        if ($firstActorId !== null && !is_string($firstActorId)) {
+            throw new \RuntimeException('Invalid actor ID in turn order');
+        }
+        return $firstActorId;
     }
 
     /**

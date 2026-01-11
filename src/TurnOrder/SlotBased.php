@@ -112,8 +112,13 @@ class SlotBased implements TurnOrderInterface
         }
 
         // Fill the slot
-        $this->slots[$this->currentSlotIndex]['filled'] = true;
-        $this->slots[$this->currentSlotIndex]['actorId'] = $actorId;
+        $currentSlot = $this->slots[$this->currentSlotIndex];
+        $this->slots[$this->currentSlotIndex] = [
+            'type' => $currentSlot['type'],
+            'initiative' => $currentSlot['initiative'],
+            'filled' => true,
+            'actorId' => $actorId,
+        ];
 
         // Move to next slot
         $this->currentSlotIndex++;

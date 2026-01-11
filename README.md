@@ -1,6 +1,9 @@
 # PHP Turn Tracker
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.1--8.5-blue.svg)](https://www.php.net/)
+[![PHPStan Level 10](https://img.shields.io/badge/PHPStan-level%2010-brightgreen.svg)](https://phpstan.org/)
+[![CI](https://github.com/codryn/phpturntracker/workflows/CI/badge.svg)](https://github.com/codryn/phpturntracker/actions)
+[![Latest Stable Version](https://poser.pugx.org/codryn/phpturntracker/v/stable)](https://packagist.org/packages/codryn/phpturntracker)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > Flexible turn order tracking library for tabletop RPG combat systems
@@ -19,7 +22,8 @@
 
 ## Requirements
 
-- PHP 8.1 to 8.5
+- PHP 8.1 or higher
+- json extension enabled
 
 ## Installation
 
