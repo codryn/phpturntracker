@@ -40,14 +40,19 @@
     },
     "scripts": {
         "test": "phpunit",
-        "coverage": "phpunit --coverage-html coverage",
-        "cs-fix": "php-cs-fixer fix",
+        "test-coverage": "phpunit --coverage-clover=coverage.xml",
+        "test-coverage-html": "phpunit --coverage-html coverage/html",
         "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "analyze": "phpstan analyse",
+        "cs-fix": "php-cs-fixer fix",
+        "analyse": "phpstan analyse",
+        "fix-line-endings": "./scripts/fix-line-endings.sh",
+        "verify-strict-types": "./scripts/verify-strict-types.sh",
         "ci": [
-            "@coverage",
+            "@fix-line-endings",
+            "@test-coverage-html",
             "@cs-check",
-            "@analyze"
+            "@analyse",
+            "@verify-strict-types"
         ]
     },
     "config": {
