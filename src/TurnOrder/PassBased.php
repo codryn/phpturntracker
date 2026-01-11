@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\TurnOrder;
+namespace Codryn\PHPTurnTracker\TurnOrder;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterState;
 
 /**
  * Pass-based turn order (Shadowrun style).

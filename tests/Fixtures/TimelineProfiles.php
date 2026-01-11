@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Fixtures;
+namespace Codryn\PHPTurnTracker\Tests\Fixtures;
 
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 /**
  * Predefined TimelineProfile configurations for common RPG systems.

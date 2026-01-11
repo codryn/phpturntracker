@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\State;
+namespace Codryn\PHPTurnTracker\State;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\TimelineProfile;
 
 /**
  * Immutable snapshot of complete encounter state.
@@ -139,7 +139,7 @@ class EncounterSnapshot implements \JsonSerializable
         }
 
         // Validate turn order type
-        if (!isset($profileData['type']) || !is_string($profileData['type']) || !\Codryn\PhpTurnTracker\TurnOrderType::isValid($profileData['type'])) {
+        if (!isset($profileData['type']) || !is_string($profileData['type']) || !\Codryn\PHPTurnTracker\TurnOrderType::isValid($profileData['type'])) {
             throw new \InvalidArgumentException('Invalid turn order type in snapshot data');
         }
         $profile = new TimelineProfile(

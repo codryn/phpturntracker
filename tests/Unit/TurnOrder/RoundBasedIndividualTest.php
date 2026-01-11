@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit\TurnOrder;
+namespace Codryn\PHPTurnTracker\Tests\Unit\TurnOrder;
 
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterState;
-use Codryn\PhpTurnTracker\Tests\Fixtures\ActorFactory;
-use Codryn\PhpTurnTracker\TurnOrder\RoundBasedIndividual;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\Tests\Fixtures\ActorFactory;
+use Codryn\PHPTurnTracker\TurnOrder\RoundBasedIndividual;
 use PHPUnit\Framework\TestCase;
 
 class RoundBasedIndividualTest extends TestCase

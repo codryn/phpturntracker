@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Exceptions;
+namespace Codryn\PHPTurnTracker\Exceptions;
 
 /**
  * Thrown when a TimelineProfile has invalid configuration.
  */
-class InvalidTimelineProfileException extends PhpTurnTrackerException
+class InvalidTimelineProfileException extends PHPTurnTrackerException
 {
 }

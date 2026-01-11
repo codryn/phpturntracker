@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Exceptions;
+namespace Codryn\PHPTurnTracker\Exceptions;
 
 /**
  * Thrown when attempting operations that require an active encounter.
  */
-class EncounterNotActiveException extends PhpTurnTrackerException
+class EncounterNotActiveException extends PHPTurnTrackerException
 {
 }

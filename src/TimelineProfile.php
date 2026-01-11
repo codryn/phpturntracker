@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker;
+namespace Codryn\PHPTurnTracker;
 
-use Codryn\PhpTurnTracker\Exceptions\InvalidTimelineProfileException;
+use Codryn\PHPTurnTracker\Exceptions\InvalidTimelineProfileException;
 
 /**
  * Defines the turn order model and rules for an encounter.

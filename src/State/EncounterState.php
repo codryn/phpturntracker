@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\State;
+namespace Codryn\PHPTurnTracker\State;
 
 /**
  * Tracks temporal state of an encounter.

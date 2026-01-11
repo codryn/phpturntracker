@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit\State;
+namespace Codryn\PHPTurnTracker\Tests\Unit\State;
 
-use Codryn\PhpTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\State\EncounterState;
 use PHPUnit\Framework\TestCase;
 
 class EncounterStateTest extends TestCase
