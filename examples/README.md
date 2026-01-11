@@ -1,6 +1,6 @@
 # Examples
 
-This directory contains complete, runnable examples demonstrating PHP Turn Tracker usage with different RPG systems.
+This directory contains complete, runnable examples demonstrating PHPTurnTracker usage with different RPG systems.
 
 ## Game Systems Copyright Notice
 

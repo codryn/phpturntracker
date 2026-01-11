@@ -139,7 +139,7 @@ public function changeInitiative(
 
 **Alpha Release** - Not recommended for production use. This is an early preview release for testing and feedback.
 
-Initial alpha release of PHP Turn Tracker - a flexible turn order tracking library for tabletop RPG combat systems.
+Initial alpha release of PHPTurnTracker - a flexible turn order tracking library for tabletop RPG combat systems.
 
 ### Added
 
