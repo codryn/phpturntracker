@@ -21,6 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### State Persistence
+Save and restore complete encounter state
+  - `getState()`: Capture immutable snapshot of entire encounter
+  - `restoreState()`: Restore encounter from snapshot
+  - `EncounterSnapshot`: Immutable state container with JSON serialization
+  - Supports persistence, UI synchronization, and save/load features
+  - Complete test coverage with 314 integration tests and 317 unit tests
+
 #### New Turn Management Features
 - **`delayActor()`**: Temporarily delay an actor's turn to a lower initiative for the current round only
   - Actor maintains "unacted" status when delayed
@@ -52,6 +60,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+#### CI Improvements
+Enhanced GitHub Actions workflow
+  - Aligned configuration with other package projects
+  - Fixed script permissions
+  - Improved code style enforcement
+
 #### Internal Improvements
 - **Turn Order Strategy Interface**: Added `actorStates` parameter to `changeInitiative()` method
   - Enables turn order strategies to use temporary initiative values from actor states
@@ -79,6 +93,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Static Analysis**: PHPStan level MAX with zero errors
   - Fixed null coalescing operator warnings
   - All code passes strict type checking
+
+### Fixed
+- **Code Style**: Fixed trailing whitespace and formatting issues
+- **State Serialization**: Fixed serialization and deserialization edge cases
 
 ### Technical Details
 - **PHP Version**: 8.1+ with strict types
