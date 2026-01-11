@@ -10,6 +10,13 @@ declare(strict_types=1);
  * - Dexterity tie-breaker for initiative ties
  * - Basic turn progression through multiple rounds
  * - Actor state tracking (acted/unacted)
+ *
+ * Copyright Notice:
+ * Dungeons & Dragons and D&D are trademarks of Wizards of the Coast LLC.
+ * The mechanics of the D&D 5th Edition initiative system are used in this example
+ * solely for non-commercial purposes to assist game masters in tracking combat
+ * initiative. This library is not affiliated with, endorsed by, or sponsored by
+ * Wizards of the Coast LLC. See GAME_SYSTEMS_COPYRIGHT.md for full details.
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';

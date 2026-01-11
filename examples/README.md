@@ -1,6 +1,10 @@
 # Examples
 
-This directory contains complete, runnable examples demonstrating PHP Turn Tracker usage with different RPG systems.
+This directory contains complete, runnable examples demonstrating PHPTurnTracker usage with different RPG systems.
+
+## Game Systems Copyright Notice
+
+All examples in this directory demonstrate initiative mechanics from various tabletop RPG systems. These mechanics are used solely for non-commercial purposes to assist game masters in tracking combat initiative. All game system names, mechanics, and related intellectual property remain the property of their respective copyright holders. See [GAME_SYSTEMS_COPYRIGHT.md](../GAME_SYSTEMS_COPYRIGHT.md) for detailed copyright notices and attributions.
 
 ## Running Examples
 

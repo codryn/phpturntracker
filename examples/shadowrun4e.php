@@ -10,6 +10,13 @@ declare(strict_types=1);
  * - Initiative decay (-10 per pass)
  * - Multiple actions per round for high-initiative characters
  * - Pass progression and round resets
+ *
+ * Copyright Notice:
+ * Shadowrun is a registered trademark of The Topps Company, Inc.
+ * The mechanics of the Shadowrun 4th Edition initiative system are used in this example
+ * solely for non-commercial purposes to assist game masters in tracking combat
+ * initiative. This library is not affiliated with, endorsed by, or sponsored by
+ * The Topps Company, Inc. or Catalyst Game Labs. See GAME_SYSTEMS_COPYRIGHT.md for full details.
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';

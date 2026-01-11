@@ -1,4 +1,4 @@
-# Quick Start Guide: PHP Turn Tracker
+# Quick Start Guide: PHPTurnTracker
 
 **Version**: 1.0.0  
 **Package**: `codryn/phpturntracker`  

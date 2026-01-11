@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Stress Test for PHP Turn Tracker.
+ * Stress Test for PHPTurnTracker.
  *
  * Tests performance and stability with:
  * - 20 actors
@@ -19,7 +19,7 @@ use Codryn\PHPTurnTracker\Encounter;
 use Codryn\PHPTurnTracker\TimelineProfile;
 use Codryn\PHPTurnTracker\TurnOrderType;
 
-echo "=== PHP Turn Tracker Stress Test ===\n\n";
+echo "=== PHPTurnTracker Stress Test ===\n\n";
 
 // Create profile
 $profile = new TimelineProfile(

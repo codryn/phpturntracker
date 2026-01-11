@@ -11,6 +11,9 @@ declare(strict_types=1);
  * - Changing initiative (buffs/debuffs)
  * - Delaying actions
  * - Maintaining correct turn order through changes
+ *
+ * Note: This example uses D&D-style initiative mechanics. See GAME_SYSTEMS_COPYRIGHT.md
+ * for copyright information regarding game system mechanics.
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
