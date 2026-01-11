@@ -290,6 +290,10 @@ Contributions are welcome! Please ensure:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Game Systems Copyright
+
+This library implements initiative and turn order mechanics from various tabletop RPG systems for non-commercial use. All game system names, mechanics, and related intellectual property remain the property of their respective copyright holders. See [GAME_SYSTEMS_COPYRIGHT.md](GAME_SYSTEMS_COPYRIGHT.md) for detailed copyright notices and attributions.
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for version history.
