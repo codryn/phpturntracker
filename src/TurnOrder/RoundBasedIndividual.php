@@ -74,6 +74,9 @@ class RoundBasedIndividual implements TurnOrderInterface
             // Current actor not in turn order, return first
             return $this->getFirstEligibleActor($actorStates, $encounterState);
         }
+        if (!is_int($currentIndex)) {
+            throw new \RuntimeException('Invalid current index type');
+        }
 
         // Get next actor in sequence (skip actors added mid-round)
         $nextIndex = $currentIndex + 1;
@@ -81,6 +84,9 @@ class RoundBasedIndividual implements TurnOrderInterface
         // Search for next eligible actor
         while ($nextIndex < count($this->turnOrder)) {
             $nextActorId = $this->turnOrder[$nextIndex];
+            if (!is_string($nextActorId)) {
+                throw new \RuntimeException('Invalid actor ID in turn order');
+            }
 
             // Check if actor was added in current round
             if (isset($actorStates[$nextActorId])) {
@@ -98,7 +104,11 @@ class RoundBasedIndividual implements TurnOrderInterface
         }
 
         // If we've reached the end, wrap to beginning (new round logic handled by Encounter)
-        return $this->turnOrder[0];
+        $firstActorId = $this->turnOrder[0] ?? null;
+        if ($firstActorId !== null && !is_string($firstActorId)) {
+            throw new \RuntimeException('Invalid actor ID in turn order');
+        }
+        return $firstActorId;
     }
 
     /**
@@ -111,6 +121,9 @@ class RoundBasedIndividual implements TurnOrderInterface
     private function getFirstEligibleActor(array $actorStates, EncounterState $encounterState): ?string
     {
         foreach ($this->turnOrder as $actorId) {
+            if (!is_string($actorId)) {
+                throw new \RuntimeException('Invalid actor ID in turn order');
+            }
             // Check if actor was added in current round
             if (isset($actorStates[$actorId])) {
                 $state = $actorStates[$actorId];
@@ -126,7 +139,11 @@ class RoundBasedIndividual implements TurnOrderInterface
         }
 
         // All actors were added this round, return first anyway
-        return $this->turnOrder[0] ?? null;
+        $firstActorId = $this->turnOrder[0] ?? null;
+        if ($firstActorId !== null && !is_string($firstActorId)) {
+            throw new \RuntimeException('Invalid actor ID in turn order');
+        }
+        return $firstActorId;
     }
 
     /**
