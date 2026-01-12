@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\State;
+namespace Codryn\PHPTurnTracker\State;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\TimelineProfile;
 
 /**
  * Immutable snapshot of complete encounter state.
@@ -139,9 +139,21 @@ class EncounterSnapshot implements \JsonSerializable
         }
 
         // Validate turn order type
-        if (!isset($profileData['type']) || !is_string($profileData['type']) || !\Codryn\PhpTurnTracker\TurnOrderType::isValid($profileData['type'])) {
+        if (!isset($profileData['type']) || !is_string($profileData['type']) || !\Codryn\PHPTurnTracker\TurnOrderType::isValid($profileData['type'])) {
             throw new \InvalidArgumentException('Invalid turn order type in snapshot data');
         }
+
+        // Process slotConfiguration to ensure proper types
+        $slotConfiguration = null;
+        if (isset($profileData['slotConfiguration']) && is_array($profileData['slotConfiguration'])) {
+            $slotConfiguration = [];
+            foreach ($profileData['slotConfiguration'] as $key => $value) {
+                if (is_string($key)) {
+                    $slotConfiguration[$key] = $value;
+                }
+            }
+        }
+
         $profile = new TimelineProfile(
             type: $profileData['type'],
             minInitiative: isset($profileData['minInitiative']) && is_int($profileData['minInitiative']) ? $profileData['minInitiative'] : 1,
@@ -150,7 +162,7 @@ class EncounterSnapshot implements \JsonSerializable
             passesPerRound: isset($profileData['passesPerRound']) && is_int($profileData['passesPerRound']) ? $profileData['passesPerRound'] : null,
             decayEnabled: isset($profileData['decayEnabled']) && is_bool($profileData['decayEnabled']) ? $profileData['decayEnabled'] : false,
             decayAmount: isset($profileData['decayAmount']) && is_int($profileData['decayAmount']) ? $profileData['decayAmount'] : 0,
-            slotConfiguration: isset($profileData['slotConfiguration']) && is_array($profileData['slotConfiguration']) ? $profileData['slotConfiguration'] : null,
+            slotConfiguration: $slotConfiguration,
             allowRepeatPopcorn: isset($profileData['allowRepeatPopcorn']) && is_bool($profileData['allowRepeatPopcorn']) ? $profileData['allowRepeatPopcorn'] : false
         );
 
@@ -173,11 +185,16 @@ class EncounterSnapshot implements \JsonSerializable
             if (!isset($actorData['initiative']) || !is_int($actorData['initiative'])) {
                 throw new \InvalidArgumentException('Invalid actor initiative: expected int');
             }
+            if (!is_string($id)) {
+                throw new \InvalidArgumentException('Invalid actor ID: expected string');
+            }
+            $attributes = isset($actorData['attributes']) && is_array($actorData['attributes']) ? $actorData['attributes'] : [];
+            /** @var array<string, mixed> $attributes */
             $actors[$id] = new Actor(
                 $actorData['id'],
                 $actorData['name'],
                 $actorData['initiative'],
-                isset($actorData['attributes']) && is_array($actorData['attributes']) ? $actorData['attributes'] : []
+                $attributes
             );
         }
 
@@ -188,6 +205,9 @@ class EncounterSnapshot implements \JsonSerializable
             throw new \InvalidArgumentException('Invalid actor states data: expected array');
         }
         foreach ($actorStatesData as $id => $stateData) {
+            if (!is_string($id)) {
+                throw new \InvalidArgumentException('Invalid actor state ID: expected string');
+            }
             if (!is_array($stateData)) {
                 throw new \InvalidArgumentException('Invalid actor state data: expected array');
             }
@@ -238,6 +258,7 @@ class EncounterSnapshot implements \JsonSerializable
         if (!is_array($data)) {
             throw new \InvalidArgumentException('Invalid JSON: expected object/array');
         }
+        /** @var array<string, mixed> $data */
         return self::fromJson($data);
     }
 }

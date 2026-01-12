@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit\Validators;
+namespace Codryn\PHPTurnTracker\Tests\Unit\Validators;
 
-use Codryn\PhpTurnTracker\Exceptions\InvalidInitiativeException;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
-use Codryn\PhpTurnTracker\Validators\InitiativeValidator;
+use Codryn\PHPTurnTracker\Exceptions\InvalidInitiativeException;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Validators\InitiativeValidator;
 use PHPUnit\Framework\TestCase;
 
 class InitiativeValidatorTest extends TestCase

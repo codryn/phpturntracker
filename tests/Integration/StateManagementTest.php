@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Integration;
+namespace Codryn\PHPTurnTracker\Tests\Integration;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\Exceptions\EncounterAlreadyActiveException;
-use Codryn\PhpTurnTracker\State\EncounterSnapshot;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Exceptions\EncounterAlreadyActiveException;
+use Codryn\PHPTurnTracker\State\EncounterSnapshot;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 use PHPUnit\Framework\TestCase;
 
 class StateManagementTest extends TestCase

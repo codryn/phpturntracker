@@ -1,25 +1,31 @@
-# PHP Turn Tracker
+# PHPTurnTracker
 
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1--8.5-blue.svg)](https://www.php.net/)
+[![PHPStan Level 10](https://img.shields.io/badge/PHPStan-level%2010-brightgreen.svg)](https://phpstan.org/)
+[![CI](https://github.com/codryn/phpturntracker/workflows/CI/badge.svg)](https://github.com/codryn/phpturntracker/actions)
+[![Latest Stable Version](https://poser.pugx.org/codryn/phpturntracker/v/stable)](https://packagist.org/packages/codryn/phpturntracker)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > Flexible turn order tracking library for tabletop RPG combat systems
 
-**PHP Turn Tracker** is a zero-dependency PHP library that provides robust turn order management for tabletop RPG combat encounters. It supports all major RPG systems through configurable timeline profiles, handling everything from D&D's individual initiative to Shadowrun's pass-based combat.
+**PHPTurnTracker** is a zero-dependency PHP library that provides robust turn order management for tabletop RPG combat encounters. It supports all major RPG systems through configurable timeline profiles, handling everything from D&D's individual initiative to Shadowrun's pass-based combat.
 
 ## Features
 
 - **🎲 Universal RPG Support**: D&D all editions, Pathfinder, Shadowrun, GURPS, Savage Worlds, Genesys, Marvel Heroic, OSR, and more
-- **⚡ Zero Dependencies**: Pure PHP 8.1+ implementation using only stdlib
 - **🔄 Multiple Turn Order Models**: Round-based individual/side, pass-based with decay, slot-based, popcorn initiative
 - **📊 State Tracking**: Automatic tracking of acted/unacted actors per round/pass
 - **🎯 Dynamic Management**: Add reinforcements, remove defeated actors, change initiative mid-combat
-- **🧪 100% Test Coverage**: Comprehensive PHPUnit test suite with 90%+ coverage
+- **❗ Error Handling**: Clear, specific error messages with location information
+- **🔒 Type Safe**: Full PHP 8.1+ type declarations and strict mode
+- **⚡ Zero Dependencies**: Pure PHP 8.1+ implementation using only stdlib and json extension
+- **🧪 Well Tested**: Unit tests with comprehensive coverage
 - **📦 PSR-12 Compliant**: Modern PHP coding standards
 
 ## Requirements
 
 - PHP 8.1 or higher
+- json PHP extension enabled
 
 ## Installation
 
@@ -27,15 +33,15 @@
 composer require codryn/phpturntracker
 ```
 
-## Quick Start
+## Quick Start and Usage
 
 ### Basic D&D-Style Combat
 
 ```php
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 // 1. Create a timeline profile for your RPG system
 $profile = new TimelineProfile(
@@ -196,7 +202,7 @@ if ($encounter->isActive()) {
 Save and restore complete encounter state for persistence, UI synchronization, or undo/rewind features:
 
 ```php
-use Codryn\PhpTurnTracker\State\EncounterSnapshot;
+use Codryn\PHPTurnTracker\State\EncounterSnapshot;
 
 // Capture current state
 $snapshot = $encounter->getState();
@@ -230,38 +236,11 @@ Use cases:
 
 ## Documentation
 
-- **[Quick Start Guide](specs/001-rpg-turn-tracker/quickstart.md)** - Complete tutorial with examples
-- **[API Documentation](docs/)** - Detailed API reference
 - **[Examples](examples/)** - Complete code examples for each RPG system
 
-## Testing
+## Development
 
-```bash
-# Run tests
-composer test
-
-# Generate coverage report
-composer coverage
-
-# Check code style
-composer cs-check
-
-# Fix code style
-composer cs-fix
-```
-
-## Requirements
-
-- PHP 8.1 or higher
-- No external dependencies (production)
-- PHPUnit 10+ (development)
-- php-cs-fixer 3+ (development)
-
-## Performance
-
-- **Encounters with 20 actors**: Complete 10 rounds in <100ms
-- **State queries**: <1ms response time
-- **Concurrent encounters**: Multiple independent encounters without performance degradation
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Architecture
 
@@ -273,14 +252,28 @@ The library uses the **Strategy Pattern** for turn order calculation:
 - `TurnOrderInterface` - Strategy interface for turn order models
 - Strategies: `RoundBasedIndividual`, `RoundBasedSide`, `PassBased`, `SlotBased`, `Popcorn`
 
+## Performance
+
+- **Encounters with 20 actors**: Complete 10 rounds in <100ms
+- **State queries**: <1ms response time
+- **Concurrent encounters**: Multiple independent encounters without performance degradation
+
+## Quality Standards
+
+- ✅ **PHPStan Level 10**: Strictest static analysis level from PHPSTan 2.1
+- ✅ **PSR-12**: PHP coding standards compliance
+- ✅ **Strict Types**: `declare(strict_types=1)` in all files
+- ✅ **TDD**: Test-driven development methodology
+- ✅ **Type Hints**: Full type declarations on all methods
+- ✅ **PHPDoc**: Complete documentation blocks
+
 ## Contributing
 
-Contributions are welcome! Please ensure:
-
-- All tests pass (`composer test`)
-- Code follows PSR-12 (`composer cs-fix`)
-- Test coverage remains ≥90%
-- PHPDoc comments on all public methods
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- Development workflow
+- Coding standards
+- Testing requirements
+- Pull request process
 
 ## License
 
@@ -288,12 +281,27 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+See [CHANGELOG.md](CHANGELOG.md) for version history and migration guides.
+
+## Support
+
+- 📖 [Documentation](docs/)
+- 🐛 [Issue Tracker](https://github.com/codryn/phpturntracker/issues)
+- 💬 [Discussions](https://github.com/codryn/phpturntracker/discussions)
+- 📧 [Email](mailto:info@codryn.com)
 
 ## Credits
 
-Developed by [Codryn](https://codryn.com)
+Created and maintained by Marco for [Codryn](https://codryn.com).
+
+Special thanks to:
+- The PHP community
+- PHPUnit, PHPStan, and PHP-CS-Fixer maintainers
+
+### Game Systems Copyright
+
+This library implements initiative and turn order mechanics from various tabletop RPG systems for non-commercial use. All game system names, mechanics, and related intellectual property remain the property of their respective copyright holders. See [GAME_SYSTEMS_COPYRIGHT.md](GAME_SYSTEMS_COPYRIGHT.md) for detailed copyright notices and attributions.
 
 ---
 
-**Need help?** Check out the [Quick Start Guide](specs/001-rpg-turn-tracker/quickstart.md) or open an issue on GitHub.
+Built for the tabletop RPG community 🎲

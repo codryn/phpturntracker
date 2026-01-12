@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit;
+namespace Codryn\PHPTurnTracker\Tests\Unit;
 
-use Codryn\PhpTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Actor;
 use PHPUnit\Framework\TestCase;
 
 class ActorTest extends TestCase

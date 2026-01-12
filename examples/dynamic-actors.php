@@ -11,14 +11,17 @@ declare(strict_types=1);
  * - Changing initiative (buffs/debuffs)
  * - Delaying actions
  * - Maintaining correct turn order through changes
+ *
+ * Note: This example uses D&D-style initiative mechanics. See GAME_SYSTEMS_COPYRIGHT.md
+ * for copyright information regarding game system mechanics.
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 // Create standard D&D profile
 $profile = new TimelineProfile(

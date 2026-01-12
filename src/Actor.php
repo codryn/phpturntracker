@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker;
+namespace Codryn\PHPTurnTracker;
 
 /**
  * Represents a participant in an encounter (PC, NPC, monster, etc.).

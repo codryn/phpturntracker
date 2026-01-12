@@ -15,6 +15,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.1] - 2026-01-12
+
+**Alpha Release** - Minor improvements and namespace standardization.
+
+### Changed
+
+#### Breaking Changes
+- **Namespace Update**: Changed from `Codryn\PhpTurnTracker` to `Codryn\PHPTurnTracker`
+  - Affects all imports and usage statements
+  - Exception class renamed: `PhpTurnTrackerException` → `PHPTurnTrackerException`
+  - Update all `use` statements in your code to the new namespace
+  - This change standardizes the naming to match PHP capitalization conventions
+
+#### PHP Version Support
+- **Added PHP 8.4 and 8.5 Support**: Library now officially supports PHP 8.4 and 8.5
+  - CI workflow updated to test against PHP 8.1, 8.2, 8.3, 8.4, and 8.5
+  - All tests pass on newer PHP versions
+  - Recommended PHP versions: 8.1 - 8.5
+
+#### Static Analysis
+- **PHPStan Level 10 Strict Rules**: Upgraded to PHPStan level 10 with strict rules enabled
+  - Added `phpstan/phpstan-strict-rules` package
+  - Enhanced type safety and code quality
+  - All code passes strict type checking with zero errors
+  - Improved null safety in turn order strategies
+
+### Added
+
+#### Documentation
+- **Game Systems Copyright Notice**: Added `GAME_SYSTEMS_COPYRIGHT.md`
+  - Documents copyright notices for all supported game systems
+  - Clarifies non-commercial use of game mechanics
+  - Covers D&D, Pathfinder, Shadowrun, Genesys, Star Wars FFG, Marvel Heroic, and OSR systems
+  - Provides proper attribution to trademark holders
+
+### Fixed
+- **Code Style**: Minor code style fixes for PSR-12 compliance
+
+### Migration Notes
+
+#### For Users of v0.2.0
+
+**Breaking Change - Namespace Update (Required)**:
+
+Update all namespace imports from `Codryn\PhpTurnTracker` to `Codryn\PHPTurnTracker`:
+
+```php
+// Old (v0.2.0 and earlier)
+use Codryn\PhpTurnTracker\Encounter;
+use Codryn\PhpTurnTracker\Actor;
+use Codryn\PhpTurnTracker\Exceptions\PhpTurnTrackerException;
+
+// New (v0.2.1+)
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Exceptions\PHPTurnTrackerException;
+```
+
+**Search and Replace**:
+- Find: `Codryn\PhpTurnTracker`
+- Replace: `Codryn\PHPTurnTracker`
+- Find: `PhpTurnTrackerException`
+- Replace: `PHPTurnTrackerException`
+
+No other changes required - all method signatures and behavior remain the same.
+
+---
+
 ## [0.2.0] - 2026-01-09
 
 **Alpha Release** - Enhanced turn management with delay mechanics and encounter control.
@@ -139,7 +207,7 @@ public function changeInitiative(
 
 **Alpha Release** - Not recommended for production use. This is an early preview release for testing and feedback.
 
-Initial alpha release of PHP Turn Tracker - a flexible turn order tracking library for tabletop RPG combat systems.
+Initial alpha release of PHPTurnTracker - a flexible turn order tracking library for tabletop RPG combat systems.
 
 ### Added
 
@@ -250,12 +318,17 @@ This is an alpha release for early adopters and testing. Please report issues, s
 
 ## Version History
 
+### [0.2.1] - 2026-01-12
+Namespace standardization (breaking change), PHP 8.4/8.5 support, PHPStan level 10 strict rules, and game systems copyright documentation.
+
 ### [0.2.0] - 2026-01-09
 Enhanced turn management with delay mechanics, rewind functionality, and encounter control (restart/reset).
 
 ### [0.1.0] - 2026-01-09
 Alpha release with complete feature set for 6 major RPG turn order systems. Not recommended for production.
 
-[Unreleased]: https://github.com/codryn/phpturntracker/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/codryn/phpturntracker/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/codryn/phpturntracker/releases/tag/v0.2.1
 [0.2.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.2.0
 [0.1.0]: https://github.com/codryn/phpturntracker/releases/tag/v0.1.0
+

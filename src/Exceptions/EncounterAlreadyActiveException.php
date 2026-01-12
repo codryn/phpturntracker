@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Exceptions;
+namespace Codryn\PHPTurnTracker\Exceptions;
 
 /**
  * Thrown when attempting to start an already active encounter.
  */
-class EncounterAlreadyActiveException extends PhpTurnTrackerException
+class EncounterAlreadyActiveException extends PHPTurnTrackerException
 {
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Fixtures;
+namespace Codryn\PHPTurnTracker\Tests\Fixtures;
 
-use Codryn\PhpTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Actor;
 
 /**
  * Factory for creating test Actor instances.

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit;
+namespace Codryn\PHPTurnTracker\Tests\Unit;
 
-use Codryn\PhpTurnTracker\Exceptions\InvalidTimelineProfileException;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Exceptions\InvalidTimelineProfileException;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 use PHPUnit\Framework\TestCase;
 
 class TimelineProfileTest extends TestCase

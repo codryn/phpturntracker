@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\TurnOrder;
+namespace Codryn\PHPTurnTracker\TurnOrder;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterState;
 
 /**
  * Side-based turn order strategy (B/X D&D, AD&D, OSR).
@@ -27,6 +27,34 @@ class RoundBasedSide implements TurnOrderInterface
     private int $currentSideIndex = 0;
 
     /**
+     * Sort sides by initiative and rebuild order.
+     */
+    private function sortSidesByInitiative(): void
+    {
+        // Create sorted array manually to preserve type structure
+        $sidesList = [];
+        foreach ($this->sides as $sideName => $sideData) {
+            $sidesList[] = [
+                'name' => $sideName,
+                'initiative' => $sideData['initiative'],
+                'actorIds' => $sideData['actorIds'],
+            ];
+        }
+
+        usort($sidesList, fn ($a, $b) => $b['initiative'] <=> $a['initiative']);
+
+        $this->sides = [];
+        foreach ($sidesList as $side) {
+            $this->sides[$side['name']] = [
+                'initiative' => $side['initiative'],
+                'actorIds' => $side['actorIds'],
+            ];
+        }
+
+        $this->sideOrder = array_keys($this->sides);
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function calculateInitialOrder(array $actors): array
@@ -34,7 +62,8 @@ class RoundBasedSide implements TurnOrderInterface
         // Group actors by side attribute
         $this->sides = [];
         foreach ($actors as $actor) {
-            $side = $actor->getAttributes()['side'] ?? 'default';
+            $sideAttr = $actor->getAttributes()['side'] ?? 'default';
+            $side = is_string($sideAttr) ? $sideAttr : 'default';
 
             if (!isset($this->sides[$side])) {
                 $this->sides[$side] = [
@@ -47,11 +76,8 @@ class RoundBasedSide implements TurnOrderInterface
         }
 
         // Sort sides by initiative (descending)
-        uasort($this->sides, function ($a, $b) {
-            return $b['initiative'] <=> $a['initiative'];
-        });
+        $this->sortSidesByInitiative();
 
-        $this->sideOrder = array_keys($this->sides);
         $this->currentSideIndex = 0;
 
         // Return all actor IDs (for compatibility)
@@ -172,7 +198,8 @@ class RoundBasedSide implements TurnOrderInterface
      */
     public function addActor(Actor $actor, array $allActors, EncounterState $encounterState): void
     {
-        $side = $actor->getAttributes()['side'] ?? 'default';
+        $sideAttr = $actor->getAttributes()['side'] ?? 'default';
+        $side = is_string($sideAttr) ? $sideAttr : 'default';
 
         // Add to existing side or create new side
         if (!isset($this->sides[$side])) {
@@ -182,11 +209,7 @@ class RoundBasedSide implements TurnOrderInterface
             ];
 
             // Re-sort sides and rebuild order
-            uasort($this->sides, function ($a, $b) {
-                return $b['initiative'] <=> $a['initiative'];
-            });
-
-            $this->sideOrder = array_keys($this->sides);
+            $this->sortSidesByInitiative();
         }
 
         $this->sides[$side]['actorIds'][] = $actor->getId();
@@ -201,8 +224,14 @@ class RoundBasedSide implements TurnOrderInterface
         foreach ($this->sides as $sideName => $sideData) {
             $key = array_search($actorId, $sideData['actorIds'], true);
             if ($key !== false) {
-                unset($this->sides[$sideName]['actorIds'][$key]);
-                $this->sides[$sideName]['actorIds'] = array_values($this->sides[$sideName]['actorIds']);
+                unset($sideData['actorIds'][$key]);
+                $reindexedActorIds = array_values($sideData['actorIds']);
+
+                // Reassign the whole side structure to preserve type shape
+                $this->sides[$sideName] = [
+                    'initiative' => $sideData['initiative'],
+                    'actorIds' => $reindexedActorIds,
+                ];
 
                 // Remove side if empty
                 if (empty($this->sides[$sideName]['actorIds'])) {
@@ -227,5 +256,7 @@ class RoundBasedSide implements TurnOrderInterface
         // In side-based initiative, individual actor initiative changes don't affect turn order
         // Only the side's collective initiative matters
         // This would require re-rolling for the entire side, which is typically not done mid-combat
+
+        // No-op: side initiative is determined collectively, not per-actor
     }
 }

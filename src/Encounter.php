@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker;
+namespace Codryn\PHPTurnTracker;
 
-use Codryn\PhpTurnTracker\Exceptions\ActorAlreadyActedException;
-use Codryn\PhpTurnTracker\Exceptions\ActorNotFoundException;
-use Codryn\PhpTurnTracker\Exceptions\DuplicateActorException;
-use Codryn\PhpTurnTracker\Exceptions\EncounterAlreadyActiveException;
-use Codryn\PhpTurnTracker\Exceptions\EncounterNotActiveException;
-use Codryn\PhpTurnTracker\Exceptions\InvalidDelayException;
-use Codryn\PhpTurnTracker\Exceptions\NoActorsException;
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterState;
-use Codryn\PhpTurnTracker\TurnOrder\TurnOrderInterface;
-use Codryn\PhpTurnTracker\Validators\InitiativeValidator;
+use Codryn\PHPTurnTracker\Exceptions\ActorAlreadyActedException;
+use Codryn\PHPTurnTracker\Exceptions\ActorNotFoundException;
+use Codryn\PHPTurnTracker\Exceptions\DuplicateActorException;
+use Codryn\PHPTurnTracker\Exceptions\EncounterAlreadyActiveException;
+use Codryn\PHPTurnTracker\Exceptions\EncounterNotActiveException;
+use Codryn\PHPTurnTracker\Exceptions\InvalidDelayException;
+use Codryn\PHPTurnTracker\Exceptions\NoActorsException;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\TurnOrder\TurnOrderInterface;
+use Codryn\PHPTurnTracker\Validators\InitiativeValidator;
 
 /**
  * Manages turn tracking for an encounter.

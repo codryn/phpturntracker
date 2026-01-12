@@ -1,8 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
 
@@ -14,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.1', '8.2', '8.3']
+        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
   
     steps:
     - name: Checkout code
@@ -25,7 +23,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         coverage: xdebug
-        extensions: mbstring, xml, ctype, json
+        extensions: json
         tools: composer:v2
 
     - name: Validate composer.json
@@ -52,12 +50,12 @@ jobs:
     - name: Run test suite
       run: composer test
 
-    - name: Generate coverage report (PHP 8.3 only)
-      if: matrix.php-version == '8.3'
+    - name: Generate coverage report (PHP 8.5 only)
+      if: matrix.php-version == '8.5'
       run: composer test-coverage
 
     - name: Upload coverage to Codecov
-      if: matrix.php-version == '8.3'
+      if: matrix.php-version == '8.5'
       uses: codecov/codecov-action@v3
       with:
         files: ./coverage/clover.xml
@@ -74,7 +72,8 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.5'
+        extensions: json
         tools: composer:v2
 
     - name: Install dependencies

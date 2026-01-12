@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Unit\State;
+namespace Codryn\PHPTurnTracker\Tests\Unit\State;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterSnapshot;
-use Codryn\PhpTurnTracker\State\EncounterState;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterSnapshot;
+use Codryn\PHPTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 use PHPUnit\Framework\TestCase;
 
 class EncounterSnapshotTest extends TestCase

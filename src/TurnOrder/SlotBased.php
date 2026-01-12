@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\TurnOrder;
+namespace Codryn\PHPTurnTracker\TurnOrder;
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\State\ActorState;
-use Codryn\PhpTurnTracker\State\EncounterState;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\State\ActorState;
+use Codryn\PHPTurnTracker\State\EncounterState;
 
 /**
  * Slot-based turn order strategy (Genesys, FFG Star Wars).
@@ -112,8 +112,13 @@ class SlotBased implements TurnOrderInterface
         }
 
         // Fill the slot
-        $this->slots[$this->currentSlotIndex]['filled'] = true;
-        $this->slots[$this->currentSlotIndex]['actorId'] = $actorId;
+        $currentSlot = $this->slots[$this->currentSlotIndex];
+        $this->slots[$this->currentSlotIndex] = [
+            'type' => $currentSlot['type'],
+            'initiative' => $currentSlot['initiative'],
+            'filled' => true,
+            'actorId' => $actorId,
+        ];
 
         // Move to next slot
         $this->currentSlotIndex++;

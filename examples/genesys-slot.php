@@ -10,14 +10,21 @@ declare(strict_types=1);
  * - PC and NPC slots determined by rolls
  * - Players choose which character fills each PC slot
  * - Flexible turn order within slot types
+ *
+ * Copyright Notice:
+ * Genesys and the Genesys Roleplaying System are trademarks of Fantasy Flight Games.
+ * Star Wars is a trademark of Lucasfilm Ltd. The mechanics of the slot-based initiative
+ * system are used in this example solely for non-commercial purposes to assist game masters
+ * in tracking combat initiative. This library is not affiliated with, endorsed by, or
+ * sponsored by Fantasy Flight Games or Lucasfilm Ltd. See GAME_SYSTEMS_COPYRIGHT.md for full details.
  */
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Codryn\PhpTurnTracker\Actor;
-use Codryn\PhpTurnTracker\Encounter;
-use Codryn\PhpTurnTracker\TimelineProfile;
-use Codryn\PhpTurnTracker\TurnOrderType;
+use Codryn\PHPTurnTracker\Actor;
+use Codryn\PHPTurnTracker\Encounter;
+use Codryn\PHPTurnTracker\TimelineProfile;
+use Codryn\PHPTurnTracker\TurnOrderType;
 
 // Create Genesys slot-based timeline profile
 // Slots are determined by initiative rolls:

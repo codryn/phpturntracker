@@ -24,18 +24,19 @@
         "php": "^8.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^10.5",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpstan/phpstan": "^1.10"
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0"
     },
     "autoload": {
         "psr-4": {
-            "Codryn\\PhpTurnTracker\\": "src/"
+            "Codryn\\PHPTurnTracker\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Codryn\\PhpTurnTracker\\Tests\\": "tests/"
+            "Codryn\\PHPTurnTracker\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -45,9 +46,9 @@
         "cs-check": "php-cs-fixer fix --dry-run --diff",
         "cs-fix": "php-cs-fixer fix",
         "analyse": "phpstan analyse",
-        "fix-line-endings": "./scripts/fix-line-endings.sh",
-        "verify-strict-types": "./scripts/verify-strict-types.sh",
-        "ci": [
+        "fix-line-endings"  : "bash scripts/fix-line-endings.sh",
+        "verify-strict-types": "bash scripts/verify-strict-types.sh",
+        "ci": [     
             "@fix-line-endings",
             "@test-coverage-html",
             "@cs-check",

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Codryn\PhpTurnTracker\Tests\Integration;
+namespace Codryn\PHPTurnTracker\Tests\Integration;
 
-use Codryn\PhpTurnTracker\Tests\Fixtures\ActorFactory;
-use Codryn\PhpTurnTracker\Tests\Fixtures\TimelineProfiles;
+use Codryn\PHPTurnTracker\Tests\Fixtures\ActorFactory;
+use Codryn\PHPTurnTracker\Tests\Fixtures\TimelineProfiles;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,7 +34,7 @@ class BasicTurnProgressionTest extends TestCase
         $profile = TimelineProfiles::dnd5e();
 
         // Create encounter, add actors, start
-        $encounter = new \Codryn\PhpTurnTracker\Encounter($profile);
+        $encounter = new \Codryn\PHPTurnTracker\Encounter($profile);
         foreach ($actors as $actor) {
             $encounter->addActor($actor);
         }
@@ -69,7 +69,7 @@ class BasicTurnProgressionTest extends TestCase
         ];
 
         $profile = TimelineProfiles::dnd5e();
-        $encounter = new \Codryn\PhpTurnTracker\Encounter($profile);
+        $encounter = new \Codryn\PHPTurnTracker\Encounter($profile);
 
         foreach ($actors as $actor) {
             $encounter->addActor($actor);
@@ -112,7 +112,7 @@ class BasicTurnProgressionTest extends TestCase
         ];
 
         $profile = TimelineProfiles::dnd5e();
-        $encounter = new \Codryn\PhpTurnTracker\Encounter($profile);
+        $encounter = new \Codryn\PHPTurnTracker\Encounter($profile);
 
         foreach ($actors as $actor) {
             $encounter->addActor($actor);
@@ -153,7 +153,7 @@ class BasicTurnProgressionTest extends TestCase
         ];
 
         $profile = TimelineProfiles::dnd5e();
-        $encounter = new \Codryn\PhpTurnTracker\Encounter($profile);
+        $encounter = new \Codryn\PHPTurnTracker\Encounter($profile);
 
         foreach ($actors as $actor) {
             $encounter->addActor($actor);
@@ -190,7 +190,7 @@ class BasicTurnProgressionTest extends TestCase
         ];
 
         $profile = TimelineProfiles::dnd5e();
-        $encounter = new \Codryn\PhpTurnTracker\Encounter($profile);
+        $encounter = new \Codryn\PHPTurnTracker\Encounter($profile);
 
         foreach ($actors as $actor) {
             $encounter->addActor($actor);
